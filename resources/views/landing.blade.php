@@ -1,82 +1,206 @@
 @extends('layouts.landing')
 
-@section('content') 
-<div class="h-full flex justify-center">
-    <div class="h-screen flex lg:flex flex-row w-full h-screen">
-        <div class="flex bg-cover bg-center h-full lg:w-1/2 flex flex-col bg-cover bg-center h-full" style="background-image: url('images/landing/CvSU.jpg');">
-            <div class="flex items-center justify-center h-screen">
-                <div class="items-center pb-28 lg:pb-2 flex flex-col items-center sm:flex flex-col items-center">
-                    <img class="w-24 lg:w-80 mb-3" src="images/CvSU-logo.png" alt="cvsu logo">
-                    <div class=" align-text-top text-center lg:text-center text-white mb-2">
-                        <p class="font-bold text-lg md:text-2xl lg:text-2xl"><b class="uppercase">Cavite State University</b> <br> Office of Alumni Affairs</p>
-                        <p class="text-white font-semibold text-lg pb-16">System</p>
-                    </div>
-                    <!--form-->
-                    <div class="p-8 py-5 px-px bg-white text-center rounded-2xl shadow-inner border border-gray-2 lg:hidden">
-                    <div>
-                        <h1 class="text-2xl font-medium text-center mb-2 text-gray-700">Accessing the CvSU - Office of Alumni Affairs System
-                        <br>
-                        <span class="text-base font-normal">
-                            <i>(For librarian and library staffs only)</i>
-                        </span>
-                        </h1>
-                        <hr class="mb-2">
-                        <p class="text-center text-lg mb-6 p-2 font-semibold text-gray-700 tracking-wide">
-                            The CvSU Control Center intelligently adapts based on your login information. It dynamically presents the modules you need for essential library tasks
-                                within the Ladislao N. Diwa Memorial Library system.</p>
-                    </div>
-                    <div class="flex items-center justify-center ">
-                        <a href="{{ url('auth/google') }}"                 
-                            class="px-4 py-2 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
-                            <img class="w-6 h-6" src="images/CvSU-logo-64x64.webp"
-                                loading="lazy" alt="google logo">
-                            <span class="text-gray-700">Sign in with CvSU Email</span>
-                        </a>
-                    </div>
-                    </div>
-                    <div class="absolute bottom-0 text-center ml-4 sm:ml-10 md:ml-20 lg:hidden">
-                        <p class="text-base font-medium text-white">© Copyright 2024 &sdot; Cavite State University  - Office of Alumni Affairs</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- right side -->
-        <div class="hidden lg:block w-1/2 flex flex-col">
-            <div class="flex h-full justify-center items-center space-y-8 bg-[#F6FFF1]">
-                <div class="text-center rounded-3xl px-72">
-                    <div class="py-5 px-10 bg-white rounded-2xl shadow-xl z-20 border border-gray-2 00">
-                        <div>
-                            <h1 class="text-2xl font-medium text-center mb-2 mt-3">Accessing the CvSU - Office of Alumni Affairs System
-                            <br><span class="text-base font-normal"><i>(For alumni students and authorized personnel of CvSU Main)</i></span>
-                            </h1>
-                            <!-- <p class="text-center text-lg mb-6 p-2 font-semibold text-gray-700 tracking-wide">
-                                The CvSU Control Center intelligently adapts based on your login information. It dynamically presents the modules you need for essential library tasks
-                                within the Ladislao N. Diwa Memorial Library system.</p> -->
-                        </div>
-                        <div class="flex items-center justify-center ">
-                            <a href="{{ url('auth') }}"                 
-                                class="px-4 py-2 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
-                                <img class="w-6 h-6" src="images/Google-logo-512x512.webp"
-                                    loading="lazy" alt="google logo">
-                                <span class="text-gray-700">Sign in with Google</span>
-                            </a>
-                        </div>
-                        <hr class="my-6">
-                        <div class="flex items-center justify-center flex-col">
-                            <span class="text-gray-500 font-normal mb-3">Don't have an account yet? 
-                                <a href="{{ url('signup') }}" class="text-blue-900 hover:underline-offset-4">Create an account</a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="absolute bottom-0 text-center p-4 ml-10 lg:absolute bottom-0 text-center p-4 ml-2">
-                <p class="text-base font-medium text-gray-700">© Copyright 2024 &sdot; Cavite State University - Office of Alumni Affairs</p>
-            </div>
-        </div>
-        <div class="hidden lg:block flex-none absolute bottom-0 right-0">
-            <img src="images/landing/laya at diwa - Edited.png" alt="Image" class="w-auto h-96 opacity-40" />
-        </div>
+@section('content')
+<main class="main">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-image"></div>
+      <div class="hero-text">
+        <h1>Looking for new learning spaces?</h1>
+        <p>
+          Social, interactive, and collaborative learning spaces applicable to your academic needs.
+        </p>
+        <a href="?view=schedules" class="button button-warning">Reserve a space</a>
+      </div>
     </div>
-</div>
+  </section>
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-heading">
+        <h2>What is <span class="text-warning" style="font-family: 'Mouse Memoirs', sans-serif !important;">Reservation System</span>?</h2>
+        <p>
+        Reservation System is an online reservation system of Ladislao N. Diwa Memorial Library designed and programmed for the reservation of the different learning spaces used for the different types of academic group activities.
+        </p>
+      </div>
+      <div class="section-content">
+        <div class="features-grid">
+          <div class="feature">
+            <div class="feature-icon">
+              <img src="images/icons/free-to-use.png" alt="Free to use icon" />
+            </div>
+            <div class="feature-title">
+              <h3 class="text-uppercase">Free to use</h3>
+            </div>
+            <div class="feature-description">
+              <p>
+                Our modern web and mobile applications allow you to keep
+                track of your finances wherever you are in the world.
+              </p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <img src="images/icons/aircondition.png" alt="Aircondition Icon" />
+            </div>
+            <div class="feature-title">
+              <h3 class="text-uppercase">Airconditioned</h3>
+            </div>
+            <div class="feature-description">
+              <p>
+                See exactly where your money goes each month. Receive
+                notifications when you’re close to hitting your limits.
+              </p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <img src="images/icons/collaboration.png" alt="Collaboration Icon" />
+            </div>
+            <div class="feature-title">
+              <h3 class="text-uppercase">Collaborative</h3>
+            </div>
+            <div class="feature-description">
+              <p>
+                We don’t do branches. Open your account in minutes online
+                and start taking control of your finances right away.
+              </p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <img src="images/icons/wifi.png" alt="Wifi Icon" />
+            </div>
+            <div class="feature-title">
+              <h3 class="text-uppercase">Internet Access</h3>
+            </div>
+            <div class="feature-description">
+              <p>
+                Manage your savings, investments, pension, and much more
+                from one account. Tracking your money has never been easier.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Latest Articels -->
+  <section class="articles">
+    <div class="container">
+      <div class="section-heading">
+        <h2>Facilities</h2>
+      </div>
+      <div class="articles-grid">
+        <div class="article">
+          <a href="?view=facility&id=1">
+            <div class="article-image">
+              <img src="images/facilities/collaboration-area.jpg" alt="Collaboration Area" />
+            </div>
+            <div class="article-text">
+              <div class="article-author text-muted">
+                <span>Max Capacity: 20</span>
+              </div>
+              <div class="article-title">
+                <a href="#">
+                  <h3 class="font-weight-bold">Collaboration Area</h3>
+                </a>
+              </div>
+              <div class="article-description text-muted">
+                <p>
+                  Amenities:<br>
+                  1 Computer<br>
+                  1 Smart TV<br>
+                  1 Projector and white screen<br>
+                  30 Chairs<br>
+                  3 Tables<br>
+                </p>
+              </div>
+            </div>
+            <div class="article-footer text-center pb-3">
+              <a class="button button-warning" href="?view=schedules&facility=1">Reserve now</a><br>
+              <a class="button-sm button-primary" href="?view=facility&id=1">View details</a>
+            </div>
+          </a> 
+        </div>
+        <div class="article">
+          <a href="?view=facility&id=2">
+            <div class="article-image">
+              <img src="images/facilities/learning-common-1.jpg" alt="Leaning Commons" />
+            </div>
+            <div class="article-text">
+              <div class="article-author text-muted">
+                <span>Max Capacity: 6</span>
+              </div>
+              <div class="article-title">
+                <a href="#">
+                  <h3 class="font-weight-bold">Learning Commons</h3>
+                </a>
+              </div>
+              <div class="article-description text-muted">
+                <p>
+                  Amenities:<br>
+                  1 Computer<br>
+                  1 Smart TV<br>
+                  1 Projector and white screen<br>
+                  8 Chairs<br>
+                  2 Tables<br>
+                </p>
+              </div>
+            </div>
+            <div class="article-footer text-center pb-3">
+              <a class="button button-warning" href="?view=schedules&facility=2">Reserve now</a><br>
+              <a class="button-sm button-primary" href="?view=facility&id=2">View details</a>
+            </div>
+          </a>
+        </div>
+        <!-- <div class="article">
+          <div class="article-image">
+            <img src="https://raw.githubusercontent.com/MohamedAridah/frontendmentor_easybank-landing-page/main/images/image-plane.jpg" alt="Article Image" />
+          </div>
+          <div class="article-text">
+            <div class="article-author">
+              <span>By Wilson Hutton</span>
+            </div>
+            <div class="article-title">
+              <a href="#">
+                <h3>Take your Easybank card wherever you go</h3>
+              </a>
+            </div>
+            <div class="article-description">
+              <p>
+                We want you to enjoy your travels. This is why we don’t
+                charge any fees on purchases while you’re abroad. We’ll even
+                show you …
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="article">
+          <div class="article-image">
+            <img src="https://raw.githubusercontent.com/MohamedAridah/frontendmentor_easybank-landing-page/main/images/image-confetti.jpg" alt="Article Image" />
+          </div>
+          <div class="article-text">
+            <div class="article-author">
+              <span>By Claire Robinson</span>
+            </div>
+            <div class="article-title">
+              <a href="#">
+                <h3>Our invite-only Beta accounts are now live!</h3>
+              </a>
+            </div>
+            <div class="article-description">
+              <p>
+                After a lot of hard work by the whole team, we’re excited to
+                launch our closed beta. It’s easy to request an invite
+                through the site ...
+              </p>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </section>
+</main>
 @endsection

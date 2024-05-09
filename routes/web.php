@@ -23,6 +23,9 @@ use App\Http\Controllers\RegistrationController;
 Route::get('/', function () {
     return view('landing');
 })->name('landing');
+Route::get('/facilities', function() {
+    return view('landing.facilities');
+})->name('landing.facilities');
 
 Route::get('/auth', [AuthController::class, 'redirectToGoogle']);
 Route::get('/auth/callback', [AuthController::class, 'handleGoogleCallback']);
