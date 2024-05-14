@@ -45,14 +45,16 @@ class AuthController extends Controller
                 'hd'            => $socialiteUser->user['hd'] ?? NULL
             ]);
 
-            $user = User::where('email', $googleUserInfo->email)->first();
-            if(!$user) {
-                dd('user had no access');
-                return;
-            }
+            $user = User::updateOrCreate(
+                ['email' => $googleUserInfo->email], 
+                [
+                    'name'      => $googleUserInfo->name,
+                    'email'     => $googleUserInfo->email
+                ]
+            );
             
             Auth::login($user);
-            return redirect()->intended('/admin');
+            return redirect()->intended('/');
       
         } catch (Exception $e) {
             dd($e->getMessage());

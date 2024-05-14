@@ -252,7 +252,7 @@ a {
 	height: 18px;
 }
 .cvsu-btn:hover {
-	box-shadow: 0 0 6px #4285f4;
+	box-shadow: 0 0 6px #1b651b;
 }
 .cvsu-btn:active {
 	background: #1b651b;
@@ -290,7 +290,7 @@ a {
 	font-family: 'Roboto', sans-serif;;
 }
 .cvsu-btn-sm:hover {
-	box-shadow: 0 0 6px #4285f4;
+	box-shadow: 0 0 6px #1b651b;
 }
 .cvsu-btn-sm:active {
 	background: #1b651b;
@@ -414,4 +414,8 @@ a {
 	transition: ease-in-out all 300ms;
 	background-color: #408c40 !important;
 	border: 1px solid #408c40 !important;
+}
+.card-horizontal {
+    display: flex;
+    flex: 1 1 auto;
 }
