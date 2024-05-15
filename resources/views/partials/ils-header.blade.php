@@ -10,20 +10,8 @@
 					</div>
 				</a>
 				<div class="ils-mobile">
-						<!-- // if($this->app->user) {
-							echo '
-								<div class="d-flex align-items-center justify-content-center">
-									<div class="nav-item dropdown">
-										<a class="nav-link p-0 dropdown-toggle text-white" href="javascript:void(0)" id="dropdown08" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle" src="' . $this->app->user['google_userinfo']['gu_picture'] . '" height="24px"> Hi! ' . $this->app->user['google_userinfo']['gu_name'] . '</a>
-										<div class="dropdown-menu" aria-labelledby="dropdown08">
-												<a class="dropdown-item" href="#">Account Settings</a>
-												<a class="dropdown-item" href="?view=deauth">Signout</a>
-										</div>
-									</div>
-								</div>
-							';
-						// } else { -->
-					<a href="#">
+					@guest
+					<a href="{{ route('google.auth') }}">
 						<div class="cvsu-btn-sm d-inline-block">
 							<div class="cvsu-icon-wrapper">
 								<img class="cvsu-icon" src="images/CvSU-logo-16x16.webp"/>
@@ -31,6 +19,18 @@
 							<p class="btn-text"><b>Sign in with CvSU Email</b></p>
 						</div>
 					</a>
+					@endguest
+					@auth
+						<div class="d-flex align-items-center justify-content-center">
+							<div class="nav-item dropdown">
+								<a class="nav-link p-0 dropdown-toggle text-white" href="javascript:void(0)" id="dropdown08" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle" src="{{ $googleUserInfo->picture }}" height="24px"> Hi! {{ $googleUserInfo->name }}</a>
+								<div class="dropdown-menu" aria-labelledby="dropdown08">
+									<a class="dropdown-item" href="{{ route('profile') }}">Account Settings</a>
+									<a class="dropdown-item" href="{{ route('google.logout') }}">Signout</a>
+								</div>
+							</div>
+						</div>
+					@endauth
 				</div>
 			</div>
 		</div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\InHouseLogsController;
 use App\Http\Controllers\InHouseClassificationsController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
 
 /*
@@ -27,11 +28,21 @@ Route::get('/facilities', function() {
     return view('landing.facilities');
 })->name('landing.facilities');
 
-Route::get('/auth', [AuthController::class, 'redirectToGoogle']);
+Route::get('/auth', [AuthController::class, 'redirectToGoogle'])->name('google.auth');
 Route::get('/auth/callback', [AuthController::class, 'handleGoogleCallback']);
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('google.logout');
 
 Route::get('/signup', [RegistrationController::class, 'create']);
+
+Route::get('/schedules', function() {
+    echo 'This is schedule page.';
+})->name('landing.schedules');
+Route::get('/rules', function() {
+    echo 'This is rules page.';
+})->name('landing.rules');
+Route::get('/facilities', function() {
+    echo 'This is facilities page.';
+})->name('landing.facilities');
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +50,9 @@ Route::get('/signup', [RegistrationController::class, 'create']);
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
     Route::prefix('admin')->group(function () {
         Route::get('/', function() {
             return redirect()->route('admin.home');
@@ -46,7 +60,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/home', function () {
             return view('welcome');
         })->name('admin.home');
-      
     /*
     |--------------------------------------------------------------------------
     | Violation Management System
