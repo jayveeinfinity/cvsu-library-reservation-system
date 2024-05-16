@@ -3,23 +3,23 @@
 @section('content')
 <main class="main">
   <!-- Facilities -->
-  <section class="articles">
+  <section class="articles py-5">
     <div class="container">
-      <a href="?view=schedules&facility=<?php echo $facility['id'];?>" class="button button-warning float-right d-lg-inline-block d-md-none d-sm-none hide-for-mobile">Reserve <?php echo $facility['name'];?></a>
+      <a href="{{ route('schedules.index', ['id' => $learningSpace->id]) }}" class="button button-warning float-right d-lg-inline-block d-md-none d-sm-none hide-for-mobile">Reserve {{ $learningSpace->name }}</a>
       <div class="section-heading">
-        <h2 class="font-weight-bold"><?php echo $facility['name'];?></h2>
-        <span class="text-muted"><i class="fas fa-map-marker-alt"></i> 4th Floor, Electronics and Multimedia Section, Ladislao N. Diwa Memorial Library</span>
-        <a href="?view=schedules&facility=<?php echo $facility['id'];?>" class="mt-4 button button-warning text-center d-lg-none d-md-block d-sm-block hide-for-desktop">Reserve <?php echo $facility['name'];?></a>
+        <h2 class="font-weight-bold">{{ $learningSpace->name }}</h2>
+        <span class="text-muted"><i class="fas fa-map-marker-alt"></i> {{ $learningSpace->location }}</span>
+        <a href="{{ route('schedules.index', ['id' => $learningSpace->id]) }}" class="mt-4 button button-warning text-center d-lg-none d-md-block d-sm-block hide-for-desktop">Reserve {{ $learningSpace->name }}</a>
       </div>
       <hr>
       <section class="section-details pt-3">
         <div class="row">
           <div class="col-lg-6 col-md-6 col-sm-12">
             <h4 class="px-2">Description</h4>
-            <p class="px-2 text-muted"><span class="badge badge-primary">Recommended</span> space for conducting academic classes, meetings, university organization special events, mini-events and etc.</p>
+            <p class="px-2 text-muted"><span class="badge badge-primary">Recommended</span> {{ $learningSpace->description }}</p>
             <h4 class="px-2">Capacity</h4>
             <ul class="ml-3 ils-list-style-none">
-              <li class="text-muted"><i class="fas fa-users m-2"></i> <?php echo $facility['min_capacity'] . ' - ' . $facility['max_capacity'];?></li>
+              <li class="text-muted"><i class="fas fa-users m-2"></i> {{ $learningSpace->min_capacity }} - {{ $learningSpace->max_capacity }}</li>
             </ul>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12" style="border-left: 1px solid rgba(0,0,0,.1)">

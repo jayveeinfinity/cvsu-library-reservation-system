@@ -12,11 +12,11 @@
         </div>
         <!-- Links -->
         <div class="main-navgation hide-for-mobile">
-            <a href="./">Home</a><a href="{{ route('landing.schedules') }}">Schedules</a><a href="{{ route('landing.facilities') }}">Facilities</a><a href="{{ route('landing.rules') }}">Rules & Regulations</a>
+            <a href="./">Home</a><a href="{{ route('schedules.index') }}">Schedules</a><a href="{{ route('landing.facilities') }}">Facilities</a><a href="{{ route('landing.rules') }}">Rules & Regulations</a>
             <!-- <a href="#">Help Center</a> -->
         </div>
         <!-- CTA Button -->
-        <a href="?view=schedules" class="button button-warning hide-for-mobile">Reserve a space</a>
+        <a href="{{ route('schedules.index') }}" class="button button-warning hide-for-mobile">Reserve a space</a>
         <!-- Hamburger Menu -->
         <div class="menu hide-for-desktop">
             <span></span>

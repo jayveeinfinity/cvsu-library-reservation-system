@@ -2,14 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ViolationController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FacilityController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\WifiLogsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ViolationController;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\InHouseLogsController;
-use App\Http\Controllers\InHouseClassificationsController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\InHouseClassificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,28 +24,18 @@ use App\Http\Controllers\RegistrationController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('landing');
-})->name('landing');
-Route::get('/facilities', function() {
-    return view('landing.facilities');
-})->name('landing.facilities');
+Route::get('/', [LandingController::class, 'index'])->name('landing');
+Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
+Route::post('/schedules/available-slots', [ScheduleController::class, 'getAvailableSlots'])->name('schedules.getAvailableSlots');
+Route::get('/facilities', [FacilityController::class, 'index'])->name('landing.facilities');
+Route::get('/facilities/{slug}', [FacilityController::class, 'show'])->name('landing.facility');
+Route::get('/rules', [LandingController::class, 'rules'])->name('landing.rules');
 
 Route::get('/auth', [AuthController::class, 'redirectToGoogle'])->name('google.auth');
 Route::get('/auth/callback', [AuthController::class, 'handleGoogleCallback']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('google.logout');
 
 Route::get('/signup', [RegistrationController::class, 'create']);
-
-Route::get('/schedules', function() {
-    echo 'This is schedule page.';
-})->name('landing.schedules');
-Route::get('/rules', function() {
-    echo 'This is rules page.';
-})->name('landing.rules');
-Route::get('/facilities', function() {
-    echo 'This is facilities page.';
-})->name('landing.facilities');
 
 /*
 |--------------------------------------------------------------------------

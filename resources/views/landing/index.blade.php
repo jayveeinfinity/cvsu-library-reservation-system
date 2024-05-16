@@ -11,7 +11,7 @@
         <p>
           Social, interactive, and collaborative learning spaces applicable to your academic needs.
         </p>
-        <a href="?view=schedules" class="button button-warning">Reserve a space</a>
+        <a href="{{ route('schedules.index') }}" class="button button-warning">Reserve a space</a>
       </div>
     </div>
   </section>
@@ -87,7 +87,7 @@
     </div>
   </section>
   <!-- Latest Articels -->
-  <section class="articles">
+  <section class="articles py-5">
     <div class="container">
       <div class="section-heading">
         <h2>Facilities</h2>
@@ -119,8 +119,8 @@
               </div>
             </div>
             <div class="article-footer text-center pb-3">
-              <a class="button button-warning" href="?view=schedules&facility=1">Reserve now</a><br>
-              <a class="button-sm button-primary" href="?view=facility&id=1">View details</a>
+              <a class="button button-warning" href="{{ route('schedules.index', ['id' => '1']) }}">Reserve now</a><br>
+              <a class="button-sm button-primary" href="{{ route('landing.facility', ['slug' => 'collaboration-room']) }}">View details</a>
             </div>
           </a> 
         </div>
@@ -150,8 +150,8 @@
               </div>
             </div>
             <div class="article-footer text-center pb-3">
-              <a class="button button-warning" href="?view=schedules&facility=2">Reserve now</a><br>
-              <a class="button-sm button-primary" href="?view=facility&id=2">View details</a>
+              <a class="button button-warning" href="{{ route('schedules.index', ['id' => '2']) }}">Reserve now</a><br>
+              <a class="button-sm button-primary" href="{{ route('landing.facility', ['slug' => 'learning-commons']) }}">View details</a>
             </div>
           </a>
         </div>

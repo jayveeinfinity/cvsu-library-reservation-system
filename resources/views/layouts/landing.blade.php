@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>@yield('title') {{ config('app.name') }}</title>
-        <link rel="x icon" type="img/png" href="images/CvSU-logo-16x16.webp">
+        <link rel="x icon" type="img/png" href="/images/CvSU-logo-16x16.webp">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- ILS Utils -->
         <link rel="stylesheet" href="{{ asset('css/ils-utils.css') }}">
