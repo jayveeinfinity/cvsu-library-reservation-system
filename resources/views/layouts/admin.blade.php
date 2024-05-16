@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="x icon" type="img/png" href="/images/CvSU-logo-16x16.webp">
     <title>
-      @yield('title') &sdot; {{ config('app.name') }}
+      @yield('title') {{ config('app.name') }}
     </title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -18,8 +18,6 @@
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <!-- Chart JS -->
     <link rel="stylesheet" href="{{asset('plugins/chart.js/Chart.css')}}">
-    <!-- Bootstrap Iconpicker CSS-->
-    <link rel="stylesheet" href="{{asset('plugins/fontawesome-iconpicker/css/bootstrap-iconpicker.css')}}"/>
   </head>
   <body class="hold-transition sidebar-mini">
     <!-- Preloader -->
@@ -28,11 +26,11 @@
 		</div>
     <div class="wrapper">
       <!-- Navbar -->
-      @include('partials.navbar')
+      @include('admin.partials.navbar')
       <!-- /.navbar -->
 
       <!-- Main Sidebar Container -->
-      @include('partials.sidebar')
+      @include('admin.partials.sidebar')
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -48,11 +46,11 @@
       <!-- /.content-wrapper -->
 
       <!-- Control Sidebar -->
-      @include('partials.aside')
+      @include('admin.partials.aside')
       <!-- /.control-sidebar -->
 
       <!-- Main Footer -->
-      @include('partials.footer')
+      @include('admin.partials.footer')
     </div>
     <!-- ./wrapper -->
   </body>

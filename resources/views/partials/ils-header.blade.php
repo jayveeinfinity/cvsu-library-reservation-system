@@ -25,6 +25,10 @@
 							<div class="nav-item dropdown">
 								<a class="nav-link p-0 dropdown-toggle text-white" href="javascript:void(0)" id="dropdown08" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle" src="{{ $googleUserInfo->picture }}" height="24px"> Hi! {{ $googleUserInfo->name }}</a>
 								<div class="dropdown-menu" aria-labelledby="dropdown08">
+									@role('admin')
+										<a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a>
+										<div class="dropdown-divider"></div>
+									@endrole
 									<a class="dropdown-item" href="{{ route('profile') }}">Account Settings</a>
 									<a class="dropdown-item" href="{{ route('google.logout') }}">Signout</a>
 								</div>

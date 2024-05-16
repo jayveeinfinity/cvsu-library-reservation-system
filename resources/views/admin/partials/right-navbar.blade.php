@@ -1,6 +1,6 @@
  <ul class="navbar-nav ml-auto">
   <li class="nav-item d-none d-sm-inline-block">
-    <a href="{{ route('logout') }}" class="nav-link">Sign out</a>
+    <a href="{{ route('google.logout') }}" class="nav-link">Sign out</a>
   </li>
   <!-- Navbar Search -->
   <!-- <li class="nav-item">

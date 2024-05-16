@@ -10,6 +10,7 @@ use App\Http\Controllers\InHouseLogsController;
 use App\Http\Controllers\InHouseClassificationsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,11 +56,11 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('admin')->group(function () {
         Route::get('/', function() {
-            return redirect()->route('admin.home');
+            return redirect()->route('admin.dashboard');
         });
-        Route::get('/home', function () {
-            return view('welcome');
-        })->name('admin.home');
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        })->name('admin.dashboard');
     /*
     |--------------------------------------------------------------------------
     | Violation Management System
@@ -101,33 +102,5 @@ Route::middleware('auth')->group(function () {
         Route::post('/inhouse/addclassification', [InHouseClassificationsController::class, 'store'])->name('admin.InHouseAddClass');
         Route::post('/inhouse/addlogs', [InHouseLogsController::class, 'store'])->name('admin.InHouseAddLogs');
         Route::patch('/inhouse/editclassification/{id}/edit', [InHouseClassificationsController::class, 'update']);
-    
-/*|--------------------------------------------------------------------------
-| Dashboard 
-|--------------------------------------------------------------------------
-*/   
-    
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
-//(UPDATE ONLY) 
-Route::get('/dashboard/{selectedKeyCollections}', [CollectionsController::class, 'getData']);
-
-Route::post('/dashboard/updateCollections', [DashboardController::class, 'updateCollections']);
-Route::post('/dashboard/updateFacilities', [DashboardController::class, 'updateFacilities']);
-Route::post('/dashboard/updateServices', [DashboardController::class, 'updateServices']);
-Route::post('/dashboard/updateLinkages', [DashboardController::class, 'updateLinkages']);
-Route::post('/dashboard/updatePersonnel', [DashboardController::class, 'updatePersonnel']);
-
-
-// Utilization
-Route::post('/dashboard/addUtilizationYear', [DashboardController::class, 'newUtilYear']);
-Route::post('/dashboard/updateUtilizationYear', [DashboardController::class, 'updateUtilYear']);
-
-// Satisfaction Rating
-Route::post('/dashboard/addSatisfactionYear', [DashboardController::class, 'newSatisYear']);
-Route::post('/dashboard/updateSatisfactionYear', [DashboardController::class, 'updateSatisYear']);
-
-    
-    
     });
 });
