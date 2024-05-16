@@ -42,36 +42,36 @@
         <h4 class="px-2">Gallery</h4>
         <div class="tz-gallery">
           <div class="row">
+            <!-- <div class="col-sm-6 col-md-4">
+                <a class="lightbox" href="/images/facilities/collaboration-area.jpg">
+                    <img src="/images/facilities/collaboration-area.jpg" alt="Coast">
+                </a>
+            </div>  -->
             <div class="col-sm-12 col-md-4">
-                <a class="lightbox" href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/bridge.jpg">
-                    <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/bridge.jpg" alt="Bridge">
+                <a class="lightbox" href="/images/facilities/IMG_7694.jpg">
+                    <img src="/images/facilities/IMG_7694.jpg">
                 </a>
             </div>
             <div class="col-sm-6 col-md-4">
-                <a class="lightbox" href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/park.jpg">
-                    <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/park.jpg" alt="Park">
+                <a class="lightbox" href="/images/facilities/IMG_7698.jpg">
+                    <img src="/images/facilities/IMG_7698.jpg">
                 </a>
             </div>
             <div class="col-sm-6 col-md-4">
-                <a class="lightbox" href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/tunnel.jpg">
-                    <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/tunnel.jpg" alt="Tunnel">
+                <a class="lightbox" href="/images/facilities/IMG_7699.jpg">
+                    <img src="/images/facilities/IMG_7699.jpg">
                 </a>
             </div>
             <div class="col-sm-6 col-md-4">
-                <a class="lightbox" href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/traffic.jpg">
-                    <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/traffic.jpg" alt="Traffic">
+                <a class="lightbox" href="/images/facilities/IMG_7700.jpg">
+                    <img src="/images/facilities/IMG_7700.jpg">
                 </a>
             </div>
             <div class="col-sm-6 col-md-4">
-                <a class="lightbox" href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/rails.jpg">
-                    <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/rails.jpg" alt="Coast">
+                <a class="lightbox" href="/images/facilities/IMG_7701.jpg">
+                    <img src="/images/facilities/IMG_7701.jpg">
                 </a>
             </div> 
-            <div class="col-sm-12 col-md-4">
-                <a class="lightbox" href="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/coast.jpg">
-                    <img src="https://raw.githubusercontent.com/LeshikJanz/libraries/master/Related%20images/Bootstrap%20example/coast.jpg" alt="Rails">
-                </a>
-            </div>
           </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>

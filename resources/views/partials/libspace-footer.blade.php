@@ -4,7 +4,7 @@
     <div class="footer-logo">
       <a href="./" class="text-warning ils-webname">
         <!-- <img src="https://raw.githubusercontent.com/MohamedAridah/frontendmentor_easybank-landing-page/main/images/logo-light.svg" alt="EasyBank Logo" /> -->
-		    LibSpace
+		    Reservation System
       </a>
     </div>
     <div class="footer-social-media">
@@ -42,20 +42,20 @@
       </a> -->
     </div>
     <div class="footer-links col1">
-      <a href="#">About Us</a>
-      <a href="?view=schedules">Schedules</a>
-      <a href="?view=facilities">Facilities</a>
+      <a href="{{ route('landing.aboutus') }}">About Us</a>
+      <a href="{{ route('schedules.index') }}">Schedules</a>
+      <a href="{{ route('landing.facilities') }}">Facilities</a>
     </div>
     <div class="footer-links col2">
-      <a href="#">Rules & Regulations</a>
+      <a href="{{ route('landing.rules') }}">Rules & Regulations</a>
       <a href="#">Help Center</a>
       <!-- <a href="#">Privacy Policy</a> -->
     </div>
     <div class="footer-cta">
-      <a href="?view=schedules" class="button button-warning">Reserve a space</a>
+      <a href="{{ route('schedules.index') }}" class="button button-warning">Reserve a space</a>
     </div>
     <div class="footer-copyright">
-      <p>© 2022 LibSpace<br>Cavite State University Integrated Library System<br>All Rights Reserved</p>
+      <p>© 2024 Reservation System<br>Cavite State University Integrated Library System<br>All Rights Reserved</p>
     </div>
   </div>
   <div class="attribution">
