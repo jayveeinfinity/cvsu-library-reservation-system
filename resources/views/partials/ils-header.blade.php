@@ -4,7 +4,7 @@
 			<div class="ils-header-sm">
 				<a href="http://library.cvsu.edu.ph/landing" style="text-decoration: none !important;">
 					<!-- <i class="fas fa-long-arrow-alt-left text-white"></i> -->
-					<img class="ils-header-logo" src="images/CvSU-logo-64x64.webp">
+					<img class="ils-header-logo" src="/images/CvSU-logo-64x64.webp">
 					<div class="ils-website text-white">
 						Cavite State University <span class="ils-website-sub text-white">Integrated Library System</span>
 					</div>

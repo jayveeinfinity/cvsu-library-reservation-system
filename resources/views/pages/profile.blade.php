@@ -38,7 +38,7 @@
                         <div class="card card-success card-outline">
                             <div class="card-body box-profile">
                                 <div class="text-center">
-                                    <img class="profile-user-img img-fluid img-circle" src="{{ $googleUserInfo->picture }}" alt="User profile picture">
+                                    <img class="profile-user-img img-fluid img-circle" src="{{ $googleUserInfo->picture }}" alt="User profile picture" style="border: 3px solid #ff8008 !important;">
                                 </div>
                                 <h3 class="profile-username text-center">{{ auth()->user()->name }}</h3>
                                 <!-- <p class="text-muted text-center">Computer Programmer I</p>                                <a href="#" class="btn btn-block btn-default disabled"><b>Edit profile</b></a> -->
