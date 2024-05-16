@@ -45,6 +45,11 @@ class AuthController extends Controller
                 'hd'            => $socialiteUser->user['hd'] ?? NULL
             ]);
 
+            // Check if the email domain is using cvsu.edu.ph
+            if($googleUserInfo->hd != "cvsu.edu.ph") {
+                abort(401, "You must used an email of cvsu.edu.ph");
+            }
+
             $user = User::updateOrCreate(
                 ['email' => $googleUserInfo->email], 
                 [
@@ -52,6 +57,11 @@ class AuthController extends Controller
                     'email'     => $googleUserInfo->email
                 ]
             );
+
+            // Assign Patron Role to user if has no roles assigned
+            if($user->roles()->count() <= 0) {
+                $user->assignRole('patron');
+            }
             
             Auth::login($user);
             return redirect()->intended('/');

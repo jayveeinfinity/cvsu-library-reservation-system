@@ -10,9 +10,9 @@
 </style>
 <aside class="main-sidebar sidebar-light-success elevation-1">
     <!-- Brand Logo -->
-    <a href="{{ route('admin.home') }}" class="brand-link">
+    <a href="{{ route('admin.dashboard') }}" class="brand-link">
       <img src="/images/CvSU-logo-64x64.webp" alt="CvSU Logo" class="brand-image" style="opacity: .8">
-      <span class="brand-text font-weight-light">Control Center</span>
+      <span class="brand-text font-weight-light">Reservation System</span>
     </a>
 
     <!-- Sidebar -->
@@ -43,8 +43,8 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-compact nav-collapse-hide-child text-sm" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="{{ route('admin.home') }}" class="nav-link bg-gradient-success active">
-              <i class="nav-icon fas fa-home"></i>
+            <a href="{{ route('admin.dashboard') }}" class="nav-link bg-gradient-success active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Home
                 <!-- <span class="right badge badge-danger">New</span> -->
@@ -55,64 +55,43 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-server"></i>
+              <i class="nav-icon fas fa-list"></i>
               <p>
-                Integrated Library System
-                <i class="right fas fa-angle-left"></i>
+                Reservations
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>E-books</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>E-journals</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route('admin.result') }}" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>Violation System</p>
-                <a href="{{ route('admin.wifi') }}" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>Wifi Logging System</p>
-                <a href="{{ route('admin.inhouse') }}" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>In-house Management</p>
-                <a href="{{ route('admin.dashboard') }}" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>Dashboard</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-cogs"></i>
+              <i class="nav-icon fas fa-home"></i>
               <p>
-                Control Center
-                <i class="right fas fa-angle-left"></i>
+                Learning Spaces
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>E-books</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-book nav-icon"></i>
-                  <p>E-journals</p>
-                </a>
-              </li>
-            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Users
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user-secret"></i>
+              <p>
+                Roles
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-bar"></i>
+              <p>
+                Reports
+              </p>
+            </a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -120,13 +99,6 @@
               <p>
                About
               </p>
-            </a>
-          </li>
-          <li class="nav-header text-uppercase">External Links</li>
-          <li class="nav-item" data-treecollapsed="kohaadminpanel">
-            <a href="http://library.cvsu.edu.ph:8001/" class="nav-link" data-treestate="kohaadminpanel" target="_blank">
-                <i class="nav-icon fas fa-external-link-alt"></i>
-                <p>KOHA Admin Panel</p>
             </a>
           </li>
         </ul>
