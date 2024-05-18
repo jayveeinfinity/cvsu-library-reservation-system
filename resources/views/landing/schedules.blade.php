@@ -239,8 +239,8 @@
         processData: false,
         success: function(response) {
           // let data = JSON.parse(response);
-          console.log(response['available']);
-          let data = response['available'];
+          //console.log(response['available']);
+          let data = response;
           ShowSchedules();
           let contents = '';
           for (const [key, value] of Object.entries(data)) {

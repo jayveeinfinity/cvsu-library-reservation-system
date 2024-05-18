@@ -11,6 +11,7 @@ use App\Http\Controllers\ViolationController;
 use App\Http\Controllers\InHouseLogsController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ReservationController;
 use App\Http\Controllers\InHouseClassificationsController;
 
 /*
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(function () {
             return redirect()->route('admin.dashboard');
         });
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('/reservations', [ReservationController::class, 'index'])->name('admin.reservations.index');
     /*
     |--------------------------------------------------------------------------
     | Violation Management System

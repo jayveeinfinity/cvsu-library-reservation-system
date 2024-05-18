@@ -54,7 +54,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.reservations.index') }}" class="nav-link">
               <i class="nav-icon fas fa-list"></i>
               <p>
                 Reservations
@@ -98,6 +98,14 @@
               <i class="nav-icon fas fa-info-circle"></i>
               <p>
                About
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('landing') }}" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>
+               Exit dashboard
               </p>
             </a>
           </li>

@@ -112,7 +112,7 @@
                       <li class="pb-3">
                         <span class="badge badge-pill badge-primary">{{ Str::upper($reservation->status) }}</span>
                         {{ $reservation->reservation_date }} - {{ $reservation->learningSpace->name }}
-                        ({{ $reservation->start_time }} - {{ $reservation->end_time }})
+                        ({{ \Carbon\Carbon::parse($reservation->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($reservation->end_time)->format('g:i A') }})
                       </li>
                     @endforeach
                   </ul>
