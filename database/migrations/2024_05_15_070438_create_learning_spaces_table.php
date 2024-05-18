@@ -19,7 +19,7 @@ class CreateLearningSpacesTable extends Migration
             $table->string('slug')->unique();
             $table->text('location')->nullable();
             $table->text('description')->nullable();
-            $table->integer('mini_capacity');
+            $table->integer('min_capacity');
             $table->integer('max_capacity');
             $table->timestamps();
         });
