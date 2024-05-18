@@ -1,32 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\LearningSpace;
+use App\Http\Controllers\Controller;
+use App\Models\Reservation;
 
-class LandingController extends Controller
+class DashboardController extends Controller
 {
     /**
-     * Display a landing page.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $learningSpaces = LearningSpace::all();
+        $usersCount = User::count();
+        $learningSpaceCount = LearningSpace::count();
+        $reservations = Reservation::where('status', 'pending')->get();
+        $reservationCount = $reservations->count();
 
-        return view('landing.index', compact('learningSpaces'));
-    }
-
-    /**
-     * Display a rules and regulations page.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function rules()
-    {
-        return view('landing.rules');
+        return view('admin.dashboard', compact('usersCount', 'learningSpaceCount', 'reservations', 'reservationCount'));
     }
 
     /**

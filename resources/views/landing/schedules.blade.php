@@ -238,15 +238,18 @@
         contentType: false,
         processData: false,
         success: function(response) {
-          // console.log(response);
-          let data = JSON.parse(response).data;
+          // let data = JSON.parse(response);
+          console.log(response['available']);
+          let data = response['available'];
           ShowSchedules();
           let contents = '';
           for (const [key, value] of Object.entries(data)) {
-            let button = value['availability'] === "Available" ? '<a class="button button-warning" href="javascript:void(0)" data-submit="schedule" data-start="' + value['startTime'] + '" data-end="' + value['endTime'] + '" data-duration="' + value['duration'] + '">Reserve</a>' : '';
-            let duration = value['duration'] > 1 ? value['duration'] + ' hours' : value['duration'] + ' hour';
-            let availability = value['availability'] === "Available" ? '<span class="badge badge-success">Available</span>' : '<span class="badge badge-danger">Reserved</span>';
-            contents += `<tr><td class="text-center">` + availability + `</td><td>${value['startTime']} - ${value['endTime']}</td><td>` + duration + `</td><td class="text-center">` + button + `</td></tr>`;
+            if(durationSelect.options[durationSelect.selectedIndex].value == value['duration']) {
+              let button = value['availability'] === "Available" ? '<a class="button button-warning" href="javascript:void(0)" data-submit="schedule" data-start="' + value['start'] + '" data-end="' + value['end'] + '" data-duration="' + value['duration'] + '">Reserve</a>' : '';
+              let duration = value['duration'] > 1 ? value['duration'] + ' hours' : value['duration'] + ' hour';
+              let availability = value['availability'] === "Available" ? '<span class="badge badge-success">Available</span>' : '<span class="badge badge-danger">Reserved</span>';
+              contents += `<tr><td class="text-center">` + availability + `</td><td>${value['start']} - ${value['end']}</td><td>` + duration + `</td><td class="text-center">` + button + `</td></tr>`;
+            }
           }
           schedulesContent.innerHTML = contents;
         }
@@ -269,31 +272,33 @@
     e = e || window.event;
     var target = e.target || e.srcElement;
     if(target.dataset.submit == "schedule") {
-      let firstForm = document.querySelector('[data-step="first"]');
-      let secondForm = document.querySelector('[data-step="second"]');
+      // let firstForm = document.querySelector('[data-step="first"]');
+      // let secondForm = document.querySelector('[data-step="second"]');
       
       var formData = new FormData();
-      formData.append('view', "verify");
+      formData.append('start_time', target.dataset.start);
+      formData.append('end_time', target.dataset.end);
+      formData.append('duration', target.dataset.duration);
       $.ajax({
           type: "POST",
-          url: "?view=verify",
+          url: "{{ route('schedules.store') }}",
           data: formData,
           contentType: false,
           processData: false,
           success: function(response) {
-            if(!JSON.parse(response).auth) {
-              Swal.fire({
-                title: 'Authentication needed',
-                text: "You must sign in first before reserving a space",
-                icon: 'info',
-                confirmButtonColor: '#4285f4',
-                confirmButtonText: 'Sign In with Google'
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  window.location.href = JSON.parse(response).url;
-                }
-              })
-            } else {
+            // if(!JSON.parse(response).auth) {
+            //   Swal.fire({
+            //     title: 'Authentication needed',
+            //     text: "You must sign in first before reserving a space",
+            //     icon: 'info',
+            //     confirmButtonColor: '#4285f4',
+            //     confirmButtonText: 'Sign In with Google'
+            //   }).then((result) => {
+            //     if (result.isConfirmed) {
+            //       window.location.href = JSON.parse(response).url;
+            //     }
+            //   })
+            // } else {
               if(!firstForm.classList.contains("d-none")) {
                 firstForm.classList.add("d-none");
               }
@@ -303,7 +308,7 @@
               document.querySelector('[data-input="date"]').innerHTML = dateSelect.options[dateSelect.selectedIndex].text;
               document.querySelector('[data-input="duration"]').innerHTML = target.dataset.duration + " hour" + (target.dataset.duration > 1 ? "s" : "");
               document.querySelector('[data-input="schedule"]').innerHTML = target.dataset.start + " - " + target.dataset.end;
-            }
+            //}
           }
       });
     }

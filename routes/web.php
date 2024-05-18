@@ -7,12 +7,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\WifiLogsController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ViolationController;
-use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\InHouseLogsController;
 use App\Http\Controllers\RegistrationController;
-use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\InHouseClassificationsController;
 
 /*
@@ -27,10 +25,14 @@ use App\Http\Controllers\InHouseClassificationsController;
 */
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
+Route::post('/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
 Route::post('/schedules/available-slots', [ScheduleController::class, 'getAvailableSlots'])->name('schedules.getAvailableSlots');
 Route::get('/facilities', [FacilityController::class, 'index'])->name('landing.facilities');
 Route::get('/facilities/{slug}', [FacilityController::class, 'show'])->name('landing.facility');
 Route::get('/rules', [LandingController::class, 'rules'])->name('landing.rules');
+Route::get('/about-us', function() {
+    echo 'About us page';
+})->name('landing.aboutus');
 
 Route::get('/auth', [AuthController::class, 'redirectToGoogle'])->name('google.auth');
 Route::get('/auth/callback', [AuthController::class, 'handleGoogleCallback']);
@@ -51,9 +53,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function() {
             return redirect()->route('admin.dashboard');
         });
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('admin.dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     /*
     |--------------------------------------------------------------------------
     | Violation Management System

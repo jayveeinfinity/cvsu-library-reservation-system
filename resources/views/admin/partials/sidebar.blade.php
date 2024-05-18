@@ -46,7 +46,7 @@
             <a href="{{ route('admin.dashboard') }}" class="nav-link bg-gradient-success active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Home
+                Dashboard
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>

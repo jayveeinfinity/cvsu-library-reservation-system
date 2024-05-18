@@ -93,112 +93,52 @@
         <h2>Facilities</h2>
       </div>
       <div class="articles-grid">
+        @foreach($learningSpaces as $learningSpace)
         <div class="article">
-          <a href="?view=facility&id=1">
+          <a href="{{ route('landing.facility', ['slug' => $learningSpace->slug]) }}">
             <div class="article-image">
-              <img src="images/facilities/collaboration-area.jpg" alt="Collaboration Area" />
+              @if($learningSpace->slug == 'collaboration-room')
+                <img src="images/facilities/collaboration-area.jpg" alt="Collaboration Area" />
+              @else
+                <img src="images/facilities/learning-common-1.jpg" alt="Learning Commons" />
+              @endif
             </div>
             <div class="article-text">
               <div class="article-author text-muted">
-                <span>Max Capacity: 20</span>
+                <span>Max Capacity: {{ $learningSpace->max_capacity }}</span>
               </div>
               <div class="article-title">
-                <a href="#">
-                  <h3 class="font-weight-bold">Collaboration Area</h3>
+                <a href="{{ route('landing.facility', ['slug' => $learningSpace->slug]) }}">
+                  <h3 class="font-weight-bold">{{ $learningSpace->name }}</h3>
                 </a>
               </div>
               <div class="article-description text-muted">
                 <p>
-                  Amenities:<br>
-                  1 Computer<br>
-                  1 Smart TV<br>
-                  1 Projector and white screen<br>
-                  30 Chairs<br>
-                  3 Tables<br>
+                  @if($learningSpace->slug == 'collaboration-room')
+                    Amenities:<br>
+                    1 Computer<br>
+                    1 Smart TV<br>
+                    1 Projector and white screen<br>
+                    30 Chairs<br>
+                    3 Tables<br>
+                  @else
+                    Amenities:<br>
+                    1 Computer<br>
+                    1 Smart TV<br>
+                    1 Projector and white screen<br>
+                    8 Chairs<br>
+                    2 Tables<br>
+                  @endif
                 </p>
               </div>
             </div>
             <div class="article-footer text-center pb-3">
-              <a class="button button-warning" href="{{ route('schedules.index', ['id' => '1']) }}">Reserve now</a><br>
-              <a class="button-sm button-primary" href="{{ route('landing.facility', ['slug' => 'collaboration-room']) }}">View details</a>
+              <a class="button button-warning" href="{{ route('schedules.index', ['id' => $learningSpace->id]) }}">Reserve now</a><br>
+              <a class="button-sm button-primary" href="{{ route('landing.facility', ['slug' => $learningSpace->slug]) }}">View details</a>
             </div>
           </a> 
         </div>
-        <div class="article">
-          <a href="?view=facility&id=2">
-            <div class="article-image">
-              <img src="images/facilities/learning-common-1.jpg" alt="Leaning Commons" />
-            </div>
-            <div class="article-text">
-              <div class="article-author text-muted">
-                <span>Max Capacity: 6</span>
-              </div>
-              <div class="article-title">
-                <a href="#">
-                  <h3 class="font-weight-bold">Learning Commons</h3>
-                </a>
-              </div>
-              <div class="article-description text-muted">
-                <p>
-                  Amenities:<br>
-                  1 Computer<br>
-                  1 Smart TV<br>
-                  1 Projector and white screen<br>
-                  8 Chairs<br>
-                  2 Tables<br>
-                </p>
-              </div>
-            </div>
-            <div class="article-footer text-center pb-3">
-              <a class="button button-warning" href="{{ route('schedules.index', ['id' => '2']) }}">Reserve now</a><br>
-              <a class="button-sm button-primary" href="{{ route('landing.facility', ['slug' => 'learning-commons']) }}">View details</a>
-            </div>
-          </a>
-        </div>
-        <!-- <div class="article">
-          <div class="article-image">
-            <img src="https://raw.githubusercontent.com/MohamedAridah/frontendmentor_easybank-landing-page/main/images/image-plane.jpg" alt="Article Image" />
-          </div>
-          <div class="article-text">
-            <div class="article-author">
-              <span>By Wilson Hutton</span>
-            </div>
-            <div class="article-title">
-              <a href="#">
-                <h3>Take your Easybank card wherever you go</h3>
-              </a>
-            </div>
-            <div class="article-description">
-              <p>
-                We want you to enjoy your travels. This is why we don’t
-                charge any fees on purchases while you’re abroad. We’ll even
-                show you …
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="article">
-          <div class="article-image">
-            <img src="https://raw.githubusercontent.com/MohamedAridah/frontendmentor_easybank-landing-page/main/images/image-confetti.jpg" alt="Article Image" />
-          </div>
-          <div class="article-text">
-            <div class="article-author">
-              <span>By Claire Robinson</span>
-            </div>
-            <div class="article-title">
-              <a href="#">
-                <h3>Our invite-only Beta accounts are now live!</h3>
-              </a>
-            </div>
-            <div class="article-description">
-              <p>
-                After a lot of hard work by the whole team, we’re excited to
-                launch our closed beta. It’s easy to request an invite
-                through the site ...
-              </p>
-            </div>
-          </div>
-        </div> -->
+        @endforeach
       </div>
     </div>
   </section>

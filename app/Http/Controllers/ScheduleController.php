@@ -28,12 +28,18 @@ class ScheduleController extends Controller
         // List down the possible slots during with the selected duration
         $startHour = 7; // Facility opening hour
         $endHour = 17; // Facility closing hour
+
         $timeSlots = [];
-        for ($hour = $startHour; $hour < $endHour; $hour += $duration) {
-            $timeSlots[] = [
-                'start' => Carbon::createFromTime($hour, 0),
-                'end' => Carbon::createFromTime($hour + $duration, 0)
-            ];
+        for ($hour = $startHour; $hour < $endHour; $hour++) {
+            for ($duration = 1; $duration <= 5; $duration++) {
+                if ($hour + $duration <= $endHour) {
+                    $timeSlots[] = [
+                        'start' => Carbon::createFromTime($hour, 0),
+                        'end' => Carbon::createFromTime($hour + $duration, 0),
+                        'duration' => $duration
+                    ];
+                }
+            }
         }
 
         // Fetch all reservations for the selected learning space on the specified date
@@ -42,23 +48,20 @@ class ScheduleController extends Controller
             ->orderBy('start_time')
             ->get();
 
-        // Define the operational hours (e.g., 7 AM to 5 PM)
-        $openingTime = Carbon::createFromTime(7, 0, 0);
-        $closingTime = Carbon::createFromTime(17, 0, 0);
-
-        // Initialize available slots array
         $availableSlots = [];
-
+        $reservedSlots = [];
+        
         foreach ($timeSlots as $timeSlot) {
             $slotStart = $timeSlot['start'];
             $slotEnd = $timeSlot['end'];
-
+            $slotDruation = $timeSlot['duration'];
+        
             $isAvailable = true;
-
+        
             foreach ($reservations as $reservation) {
                 $reservationStart = Carbon::parse($reservation->start_time);
                 $reservationEnd = Carbon::parse($reservation->end_time);
-
+        
                 // Check if the time slot overlaps with the reservation
                 if (
                     $slotStart->between($reservationStart, $reservationEnd) ||
@@ -70,16 +73,25 @@ class ScheduleController extends Controller
                     break;
                 }
             }
-
+        
             if ($isAvailable) {
                 $availableSlots[] = [
-                    'start' => $slotStart->format('H:i'),
-                    'end' => $slotEnd->format('H:i')
+                    'start' => $slotStart->format('g:i A'),
+                    'end' => $slotEnd->format('g:i A'),
+                    'duration' => $slotDruation,
+                    'availability' => "Available"
+                ];
+            } else {
+                $reservedSlots[] = [
+                    'start' => $slotStart->format('g:i A'),
+                    'end' => $slotEnd->format('g:i A'),
+                    'duration' => $slotDruation,
+                    'availability' => "Reserved"
                 ];
             }
         }
 
-        return response()->json($availableSlots);
+        return response()->json(['available' => $availableSlots, 'reserved' => $reservedSlots]);
     }
 
     /**
