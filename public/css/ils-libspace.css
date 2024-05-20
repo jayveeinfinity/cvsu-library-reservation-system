@@ -142,9 +142,17 @@ button:hover::after,
   background: linear-gradient(to right, #FF8008, #FFC837) !important;
   box-shadow: 1px 1px 10px #FF8008 !important;
 }
-
-.button-warning:hover, .button-primary:hover {
+.button-warning:hover, .button-primary:hover, .button-secondary:hover {
   transition: box-shadow 0.3s ease-in-out;
+}
+.button-secondary {
+  color: #343a40 !important;
+  background: linear-gradient(to right, #ecf5fe, #d2e9ff) !important;
+}
+.button-secondary:hover {
+  color: #343a40 !important;
+  background: linear-gradient(to right, #d2e9ff, #ecf5fe) !important;
+  box-shadow: 1px 1px 10px #ecf5fe !important;
 }
 
 @media (max-width: 63.9375em) {
