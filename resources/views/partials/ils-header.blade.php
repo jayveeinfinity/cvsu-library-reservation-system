@@ -14,7 +14,7 @@
 					<a href="{{ route('google.auth') }}">
 						<div class="cvsu-btn-sm d-inline-block">
 							<div class="cvsu-icon-wrapper">
-								<img class="cvsu-icon" src="images/CvSU-logo-16x16.webp"/>
+								<img class="cvsu-icon" src="/images/CvSU-logo-16x16.webp"/>
 							</div>
 							<p class="btn-text"><b>Sign in with CvSU Email</b></p>
 						</div>
