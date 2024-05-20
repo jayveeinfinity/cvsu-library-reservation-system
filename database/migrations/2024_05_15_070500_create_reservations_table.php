@@ -20,6 +20,9 @@ class CreateReservationsTable extends Migration
             $table->date('reservation_date');
             $table->time('start_time');
             $table->time('end_time');
+            $table->string('purpose')->nullable();
+            $table->integer('no_of_guests')->nullable();
+            $table->text('activity_description')->nullable();
             $table->enum('status', ['pending', 'confirmed', 'rejected'])->default('pending');
             $table->unsignedBigInteger('processed_by')->nullable(); // Admin or user who confirmed/rejected
             $table->text('reason')->nullable(); // Reason for rejection or cancellation

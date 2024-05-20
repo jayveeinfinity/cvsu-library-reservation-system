@@ -26,7 +26,6 @@ use App\Http\Controllers\InHouseClassificationsController;
 */
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
-Route::post('/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
 Route::post('/schedules/available-slots', [ScheduleController::class, 'getAvailableSlots'])->name('schedules.getAvailableSlots');
 Route::get('/facilities', [FacilityController::class, 'index'])->name('landing.facilities');
 Route::get('/facilities/{slug}', [FacilityController::class, 'show'])->name('landing.facility');
@@ -49,6 +48,7 @@ Route::get('/signup', [RegistrationController::class, 'create']);
 Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
 
     Route::prefix('admin')->group(function () {
         Route::get('/', function() {

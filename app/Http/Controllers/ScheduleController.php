@@ -106,7 +106,35 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        // exit;
+
+        // $validatedData = $request->validate([
+        //     'purpose' => 'nullable|string|max:255',
+        //     'no_of_guests' => 'nullable|integer',
+        //     'activity_description' => 'nullable|string',
+        //     // Other validation rules
+        // ]);
+    
+        try {
+            $reservation = Reservation::create([
+                'user_id' => auth()->user()->id,
+                'learning_space_id' => $request->learning_space_id,
+                'reservation_date' => $request->reservation_date,
+                'start_time' => Carbon::parse($request->start_time)->format('H:i:s'),
+                'end_time' => Carbon::parse($request->end_time)->format('H:i:s'),
+                'duration' => $request->duration,
+                'status' => 'Pending',
+                'purpose' => $request->purpose,
+                'no_of_guests' => $request->no_of_guests,
+                'activity_description' => $request->activity_description
+            ]);
+    
+            return response()->json(['success' => 'Reservation created successfully.']);
+        } catch (\Exception $e) {
+            // return response()->json(['error' => 'An error occurred. Please try again.'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**

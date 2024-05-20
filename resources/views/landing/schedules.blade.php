@@ -6,7 +6,7 @@
 
 @section('content')
 <main class="main">
-  <section class="articles" data-step="first">
+  <section class="articles">
     <div class="container">
       <div class="section-heading">
         <h2>Schedules</h2>
@@ -117,57 +117,58 @@
     </div>
   <br><br><br>
   </section>
-  <section class="articles d-none" data-step="second">
-    <div class="container">
-      <a class="button-sm button-warning mb-3" href="?view=schedules"><i class="fas fa-arrow-left"></i> Cancel reservation</a>
-      <div class="row">
-        <div class="col-12 mb-5">
-          <div class="section-heading">
-            <h2>Confirm reservation</h2>
-          </div>
-          <div class="card flex-lg-row flex-md-column flex-sm-column">
-            <img src="images/facilities/collaboration-area.jpg" height="100%" data-image="facility">
-            <div class="card-body">
-              <h3 data-input="facility">Collaboration Area</h3>
-              <p>
-                <i class="far fa-calendar"></i> Date: <span class="badge badge-warning text-white" data-input="date">__-__-____</span><br>
-                <i class="far fa-clock"></i> Time Duration: <span class="badge badge-warning text-white" data-input="duration">__ hours/s</span><br>
-                <i class="far fa-clock"></i> Schedule: <span class="badge badge-warning text-white" data-input="schedule">__:__ __ - __:__ __</span><br>
-              </p>
-            </div>
-          </div>
+  <!-- Modal -->
+  <div class="modal fade" id="reservationModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reservationModalLabel">Reservation details</h5>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
         </div>
-        <div class="col-12 mb-3">
-          <div class="section-heading">
-            <h2>Additional Information</h2>
-          </div>
-          <div class="card">
-            <div class="card-body">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12 py-2 px-4">
+              <div class="card flex-lg-row flex-md-column flex-sm-column">
+                <img src="images/facilities/collaboration-area.jpg" height="100%" data-image="facility">
+                <div class="card-body">
+                  <h3 data-input="facility">Collaboration Area</h3>
+                  <p>
+                    <i class="far fa-calendar"></i> Date: <span class="badge badge-warning text-white" data-input="date">__-__-____</span><br>
+                    <i class="far fa-clock"></i> Time Duration: <span class="badge badge-warning text-white" data-input="duration">__ hours/s</span><br>
+                    <i class="far fa-clock"></i> Schedule: <span class="badge badge-warning text-white" data-input="schedule">__:__ __ - __:__ __</span><br>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 mb-3">
               <form class="px-3">
                 <div class="form-group">
                   <label for="Purpose of Reservation">Purpose of Reservation</label>
-                  <input class="form-control" type="text" placeholder="Type your purpose of reservation...">
+                  <input class="form-control" type="text" placeholder="Type your purpose of reservation..." id="purpose">
                 </div>
                 <div class="form-group">
                   <label for="Number Guests">No. of guests</label>
-                  <input class="form-control" type="number" placeholder="No. of guests...">
+                  <input class="form-control" type="number" placeholder="No. of guests..." id="no_of_guests">
                 </div>
                 <div class="form-group">
                   <label for="Activity Description">Activity Description (Optional)</label>
-                  <textarea class="form-control" placeholder="Type activity description..." style="height: 100px;"></textarea>
+                  <textarea class="form-control" placeholder="Type activity description..." style="height: 100px;" id="activity_description"></textarea>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox"><label class="form-check-label" for="Accept Rules and Regulations">Accept Rules & Regulations</label>
                 </div>
-                <button class="button button-warning border-0 float-lg-right float-md-none">Confirm reservation</button>
               </form>
             </div>
           </div>
         </div>
+        <div class="modal-footer">
+          <a type="button" class="button-sm button-secondary" data-dismiss="modal"><i class="fas fa-arrow-left"></i> Cancel</a>
+          <a type="button" class="button-sm button-warning border-0" data-submit="confirmReservation" href="javascript:void(0)">Confirm reservation</a>
       </div>
     </div>
-  <br><br><br>
-  </section>
+  </div>
 </main>
 <script>
   const form = document.querySelector('[data-form="reserveSpace"]');
@@ -180,6 +181,9 @@
   let hasFacility = false;
   let hasDate = false;
   let hasDuration = false;
+
+  let start_time = null;
+  let end_time = null;
 
   form.addEventListener('change', (e) => {
     Validate();
@@ -271,46 +275,43 @@
   document.addEventListener("click", (e) => {
     e = e || window.event;
     var target = e.target || e.srcElement;
-    if(target.dataset.submit == "schedule") {
-      // let firstForm = document.querySelector('[data-step="first"]');
-      // let secondForm = document.querySelector('[data-step="second"]');
-      
-      var formData = new FormData();
-      formData.append('start_time', target.dataset.start);
-      formData.append('end_time', target.dataset.end);
-      formData.append('duration', target.dataset.duration);
-      $.ajax({
-          type: "POST",
-          url: "{{ route('schedules.store') }}",
-          data: formData,
-          contentType: false,
-          processData: false,
-          success: function(response) {
-            // if(!JSON.parse(response).auth) {
-            //   Swal.fire({
-            //     title: 'Authentication needed',
-            //     text: "You must sign in first before reserving a space",
-            //     icon: 'info',
-            //     confirmButtonColor: '#4285f4',
-            //     confirmButtonText: 'Sign In with Google'
-            //   }).then((result) => {
-            //     if (result.isConfirmed) {
-            //       window.location.href = JSON.parse(response).url;
-            //     }
-            //   })
-            // } else {
-              if(!firstForm.classList.contains("d-none")) {
-                firstForm.classList.add("d-none");
-              }
-              if(secondForm.classList.contains("d-none")) {
-                secondForm.classList.remove("d-none");
-              }
-              document.querySelector('[data-input="date"]').innerHTML = dateSelect.options[dateSelect.selectedIndex].text;
-              document.querySelector('[data-input="duration"]').innerHTML = target.dataset.duration + " hour" + (target.dataset.duration > 1 ? "s" : "");
-              document.querySelector('[data-input="schedule"]').innerHTML = target.dataset.start + " - " + target.dataset.end;
-            //}
-          }
-      });
+    switch(target.dataset.submit) {
+      case "schedule":
+        start_time = target.dataset.start;
+        end_time = target.dataset.end;
+
+        // document.querySelector('[data-input="facility"]').src = facilitySelect.options[facilitySelect.selectedIndex].text;
+        document.querySelector('[data-input="facility"]').innerHTML = facilitySelect.options[facilitySelect.selectedIndex].text;
+        document.querySelector('[data-input="date"]').innerHTML = dateSelect.options[dateSelect.selectedIndex].text;
+        document.querySelector('[data-input="duration"]').innerHTML = target.dataset.duration + " hour" + (target.dataset.duration > 1 ? "s" : "");
+        document.querySelector('[data-input="schedule"]').innerHTML = start_time + " - " + end_time;
+        // Trigger the modal when the page is fully loaded
+        $(document).ready(function() {
+            $('#reservationModal').modal('show');
+        });
+        break;
+      case "confirmReservation":
+        var formData = new FormData();
+        formData.append('learning_space_id', facilitySelect.options[facilitySelect.selectedIndex].value);
+        formData.append('reservation_date', dateSelect.options[dateSelect.selectedIndex].value);
+        formData.append('start_time', start_time);
+        formData.append('end_time', end_time);
+        formData.append('duration', durationSelect.options[durationSelect.selectedIndex].value);
+        formData.append('purpose', $('#purpose').val());
+        formData.append('no_of_guests', $('#no_of_guests').val());
+        formData.append('activity_description', $('#activity_description').val());
+        formData.append('_token', "{{ csrf_token() }}");
+        $.ajax({
+            type: "POST",
+            url: "{{ route('schedules.store') }}",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+              console.log(response);
+            }
+        });
+        break;
     }
   });
 </script>
