@@ -25,18 +25,22 @@ class ScheduleController extends Controller
         $reservationDate = $request->reservation_date;
         $duration = $request->duration; // Duration in hours
 
+        $carbonReservationdata = Carbon::parse($reservationDate);
+
         // List down the possible slots during with the selected duration
         $startHour = 7; // Facility opening hour
         $endHour = 17; // Facility closing hour
 
         $timeSlots = [];
+        
         for ($hour = $startHour; $hour < $endHour; $hour++) {
             for ($duration = 1; $duration <= 5; $duration++) {
                 if ($hour + $duration <= $endHour) {
                     $timeSlots[] = [
-                        'start' => Carbon::createFromTime($hour, 0),
-                        'end' => Carbon::createFromTime($hour + $duration, 0),
-                        'duration' => $duration
+                        'start' => Carbon::createFromTime($hour, 0)->setDate($carbonReservationdata->format('Y'), $carbonReservationdata->format('m'), $carbonReservationdata->format('d')),
+                        'end' => Carbon::createFromTime($hour + $duration, 0)->setDate($carbonReservationdata->format('Y'), $carbonReservationdata->format('m'), $carbonReservationdata->format('d')),
+                        'duration' => $duration,
+                        'availability' => "Available"
                     ];
                 }
             }
@@ -48,9 +52,8 @@ class ScheduleController extends Controller
             ->orderBy('start_time')
             ->get();
 
-        $availableSlots = [];
-        $reservedSlots = [];
-        
+        $index = 0;
+
         foreach ($timeSlots as $timeSlot) {
             $slotStart = $timeSlot['start'];
             $slotEnd = $timeSlot['end'];
@@ -59,39 +62,30 @@ class ScheduleController extends Controller
             $isAvailable = true;
         
             foreach ($reservations as $reservation) {
-                $reservationStart = Carbon::parse($reservation->start_time);
-                $reservationEnd = Carbon::parse($reservation->end_time);
-        
+                $reservationStart = Carbon::createFromTimestamp(strtotime($reservation->reservation_date . $reservation->start_time));
+                $reservationEnd = Carbon::createFromTimestamp(strtotime($reservation->reservation_date . $reservation->end_time));
+
                 // Check if the time slot overlaps with the reservation
                 if (
-                    $slotStart->between($reservationStart, $reservationEnd) ||
-                    $slotEnd->between($reservationStart, $reservationEnd) ||
-                    $reservationStart->between($slotStart, $slotEnd) ||
-                    $reservationEnd->between($slotStart, $slotEnd)
+                    ($reservationStart->copy()->addSecond()->between($slotStart, $slotEnd)) ||
+                    ($reservationEnd->copy()->subSecond()->between($slotStart, $slotEnd))
                 ) {
                     $isAvailable = false;
                     break;
                 }
             }
-        
-            if ($isAvailable) {
-                $availableSlots[] = [
-                    'start' => $slotStart->format('g:i A'),
-                    'end' => $slotEnd->format('g:i A'),
-                    'duration' => $slotDruation,
-                    'availability' => "Available"
-                ];
-            } else {
-                $reservedSlots[] = [
-                    'start' => $slotStart->format('g:i A'),
-                    'end' => $slotEnd->format('g:i A'),
-                    'duration' => $slotDruation,
-                    'availability' => "Reserved"
-                ];
-            }
+
+            $timeSlots[$index] = [
+                'start' => $slotStart->format('g:i A'),
+                'end' => $slotEnd->format('g:i A'),
+                'duration' => $slotDruation,
+                'availability' => $isAvailable ? "Available" : "Reserved"
+            ];
+
+            $index++;
         }
 
-        return response()->json(['available' => $availableSlots, 'reserved' => $reservedSlots]);
+        return response()->json($timeSlots);
     }
 
     /**
