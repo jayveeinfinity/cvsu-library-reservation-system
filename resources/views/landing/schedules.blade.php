@@ -19,28 +19,20 @@
                 @csrf
                 <div class="row">
                   <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                    <label class="form-label">Facility</label>
-                    <select class="form-control" data-select="facility">
-                      <?php
-                        $arrayOfFacilities = array(
-                          '1' => "Collaboration Area",
-                          '2' => "Learning Common 1",
-                          '3' => "Learning Common 2",
-                          '4' => "Learning Common 3"
-                        );
-                        echo '<option value="" ' . (is_null($facility) ? 'selected' : '') . ' disabled>Select facility</option>';
-                        foreach($arrayOfFacilities as $key => $value) {
-                          echo '<option value="' . $key . '" ' . ($facility == $key ? 'selected' : '') . '>' . $value . '</option>';
-                        }
-                      ?>
+                    <label class="form-label">Learning Spaces</label>
+                    <select class="form-control" data-select="facility">  
+                      <option value="" selected disabled>Choose a learning space...</option>
+                      @foreach($learningSpaces as $learningSpace)
+                        <option value="{{ $learningSpace->id }}" ' . {{ $facility == $learningSpace->id ? 'selected' : '' }}>{{ $learningSpace->name }}</option>
+                      @endforeach
                     </select>
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                    <label class="form-label">Select date</label>
+                    <label class="form-label">Choose date</label>
                     <br>
                     <!-- <input class="form-control" type="date" data-input="date" onkeydown="return false" disabled> -->
                     <select class="form-control" data-select="date" disabled>
-                      <option value="" selected disabled>Select date</option>
+                      <option value="" selected disabled>Choose date...</option>
                       <?php
                         $allowedDays = array("Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
                         $dateBegin = date('Y') . '-' . date('m') . '-' . date('d');
@@ -81,9 +73,9 @@
                     </select>
                   </div>
                   <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
-                    <label class="form-label">Select duration hour/s</label>
+                    <label class="form-label">Choose a duration hour/s</label>
                     <select class="form-control" data-select="duration" disabled>
-                      <option value="" selected disabled>Select duration hour/s</option>
+                      <option value="" selected disabled>Choose duration hour/s...</option>
                       <option value="1">1 hour</option>
                       <option value="2">2 hours</option>
                       <option value="3">3 hours</option>

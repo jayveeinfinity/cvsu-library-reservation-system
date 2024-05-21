@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LearningSpace;
 use Carbon\Carbon;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
@@ -16,8 +17,9 @@ class ScheduleController extends Controller
     public function index()
     {
         $facility = NULL;
+        $learningSpaces = LearningSpace::all();
         
-        return view('landing.schedules', compact('facility'));
+        return view('landing.schedules', compact('learningSpaces', 'facility'));
     }
 
     public function getAvailableSlots(Request $request) {

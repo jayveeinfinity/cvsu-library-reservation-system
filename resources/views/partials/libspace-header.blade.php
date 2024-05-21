@@ -5,14 +5,14 @@
         <nav class="flex flex-jc-sb flex-ai-c">
         <!-- Logo -->
         <div class="logo">
-            <a href="./" class="ils-webname text-warning">
+            <a href="{{ route('landing') }}" class="ils-webname text-warning">
             <!-- <img src="https://raw.githubusercontent.com/MohamedAridah/frontendmentor_easybank-landing-page/main/images/logo-dark.svg" alt="EasyBank" /> -->
                 Reservation System
             </a>
         </div>
         <!-- Links -->
         <div class="main-navgation hide-for-mobile">
-            <a href="./">Home</a><a href="{{ route('schedules.index') }}">Schedules</a><a href="{{ route('landing.facilities') }}">Facilities</a><a href="{{ route('landing.rules') }}">Rules & Regulations</a>
+            <a href="{{ route('landing') }}">Home</a><a href="{{ route('schedules.index') }}">Schedules</a><a href="{{ route('landing.facilities') }}">Learning Spaces</a><a href="{{ route('landing.rules') }}">Rules & Regulations</a>
             <!-- <a href="#">Help Center</a> -->
         </div>
         <!-- CTA Button -->
