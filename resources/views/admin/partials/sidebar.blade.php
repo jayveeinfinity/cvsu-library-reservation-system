@@ -62,7 +62,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.learningspaces.index') }}" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Learning Spaces
@@ -70,7 +70,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.users.index') }}" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Users

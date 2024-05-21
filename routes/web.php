@@ -8,10 +8,12 @@ use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\WifiLogsController;
 use App\Http\Controllers\ViolationController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\InHouseLogsController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReservationController;
+use App\Http\Controllers\Admin\LearningSpaceController;
 use App\Http\Controllers\InHouseClassificationsController;
 
 /*
@@ -56,6 +58,8 @@ Route::middleware('auth')->group(function () {
         });
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('/reservations', [ReservationController::class, 'index'])->name('admin.reservations.index');
+        Route::get('/learning-spaces', [LearningSpaceController::class, 'index'])->name('admin.learningspaces.index');
+        Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
     /*
     |--------------------------------------------------------------------------
     | Violation Management System
