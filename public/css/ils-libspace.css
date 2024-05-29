@@ -155,6 +155,12 @@ button:hover::after,
   box-shadow: 1px 1px 10px #ecf5fe !important;
 }
 
+.button-sm:disabled, button-sm:disabled:hover {
+  background: #ccc !important;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
+
 @media (max-width: 63.9375em) {
   .hide-for-mobile {
     display: none;
