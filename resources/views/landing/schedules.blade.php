@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+@if(!$myReservation)
 <main class="main">
   <section class="articles">
     <div class="container">
@@ -135,21 +136,21 @@
               </div>
             </div>
             <div class="col-12 mb-3">
-              <form class="px-3">
+              <form class="px-3" data-form="additionalDetails">
                 <div class="form-group">
                   <label for="Purpose of Reservation">Purpose of Reservation</label>
-                  <input class="form-control" type="text" placeholder="Type your purpose of reservation..." id="purpose">
+                  <input class="form-control confirm_required" type="text" placeholder="Type your purpose of reservation..." id="purpose" required>
                 </div>
                 <div class="form-group">
                   <label for="Number Guests">No. of guests</label>
-                  <input class="form-control" type="number" placeholder="No. of guests..." id="no_of_guests">
+                  <input class="form-control confirm_required" type="number" placeholder="No. of guests..." id="no_of_guests" required>
                 </div>
                 <div class="form-group">
                   <label for="Activity Description">Activity Description (Optional)</label>
-                  <textarea class="form-control" placeholder="Type activity description..." style="height: 100px;" id="activity_description"></textarea>
+                  <textarea class="form-control confirm_required" placeholder="Type activity description..." style="height: 100px;" id="activity_description" required></textarea>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox"><label class="form-check-label" for="Accept Rules and Regulations">Accept Rules & Regulations</label>
+                  <input class="form-check-input" type="checkbox" required data-input="checkbox"><label class="form-check-label" for="Accept Rules and Regulations">Accept Rules & Regulations</label>
                 </div>
               </form>
             </div>
@@ -157,11 +158,46 @@
         </div>
         <div class="modal-footer">
           <a type="button" class="button-sm button-secondary" data-dismiss="modal"><i class="fas fa-arrow-left"></i> Cancel</a>
-          <a type="button" class="button-sm button-warning border-0" data-submit="confirmReservation" href="javascript:void(0)">Confirm reservation</a>
+          <button type="button" class="button-sm button-warning border-0" data-submit="confirmReservation" disabled>Confirm reservation</button>
       </div>
     </div>
   </div>
 </main>
+@else
+<main class="main">
+  <section class="articles">
+    <div class="container">
+      <div class="section-heading mb-0">
+        <h2>My Reservation</h2>
+      </div>
+      <div class="card">
+        <div class="card-horizontal">
+            <div class="img-square-wrapper">
+                <img class="" src="images/landing/library.jpg" alt="Card image cap" style="height: 180px;">
+            </div>
+            <div class="card-body">
+              @php
+                $reservation_date = Carbon\Carbon::parse($myReservation->reservation_date);
+                $start_time = Carbon\Carbon::createFromTimestamp(strtotime(today()->format('Y-m-d') . $myReservation->start_time));
+                $end_time = Carbon\Carbon::createFromTimestamp(strtotime(today()->format('Y-m-d') . $myReservation->end_time));
+
+                $duration = $end_time->diff($start_time);
+              @endphp
+              <!-- <h3>{{ $controlNumber }} </h3> -->
+              <h4 class="card-title">{{ $myReservation->learningSpace->name  }} <span class="badge badge-pill badge-primary">{{ Str::upper($myReservation->status) }}</span></h4>
+              <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Date</span> {{ $reservation_date->format('F d, Y') }} ({{$reservation_date->format('l')}})</p>
+              <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Time</span> {{ Carbon\Carbon::parse($myReservation->start_time)->format('H:i A') }} - {{ Carbon\Carbon::parse($myReservation->end_time)->format('H:i A') }} ({{ $duration->format('%h') }} hours)</p>
+              <p class="card-text"><span class="badge badge-pill badge-warning">Participants</span> {{ $myReservation->no_of_guests}}</p>
+            </div>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Date confirmed: {{ $reservation_date->format('F d, Y') }}</small>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+@endif
 <script>
   const form = document.querySelector('[data-form="reserveSpace"]');
   const facilitySelect = document.querySelector('[data-select="facility"]');
@@ -300,11 +336,39 @@
             contentType: false,
             processData: false,
             success: function(response) {
-              console.log(response);
+              Swal.fire({
+                icon: "success",
+                title: "Schedule reserved successfully!",
+                showConfirmButton: false,
+                timer: 1500,
+                willClose: () => {
+                  $(document).ready(function() {
+                    $('#reservationModal').modal('hide');
+                  });
+                }
+              });
             }
         });
         break;
     }
+  });
+
+  const additionalDetailsForm = document.querySelector('[data-form="additionalDetails"]');
+  const confirmButton = document.querySelector('[data-submit="confirmReservation"]');
+  const requiredFields = document.querySelectorAll('.confirm_required');
+  const checkbox = document.querySelector('[data-input="checkbox"]');
+
+  additionalDetailsForm.addEventListener('input', function () {
+    let allFilled = true;
+    requiredFields.forEach(field => {
+        if (!field.value) {
+          allFilled = false;
+        }
+        if(!checkbox.checked) {
+          allFilled = false;
+        }
+    });
+    confirmButton.disabled = !allFilled;
   });
 </script>
 @endsection

@@ -18,76 +18,33 @@ class ScheduleController extends Controller
     {
         $facility = NULL;
         $learningSpaces = LearningSpace::all();
+        $userId = auth()->user()->id ?? NULL;
+        $myReservation = NULL;
+
+        if($userId) {
+            $myReservation = Reservation::where('user_id', $userId)
+                ->where('reservation_date', '>', today())
+                ->where('status', 'pending')
+                ->first();
+        }
+
+        $controlNumber = $this->generateControlNumber('LC1', $myReservation->reservation_date, $myReservation->start_time, $myReservation->end_time, 2);
         
-        return view('landing.schedules', compact('learningSpaces', 'facility'));
+        return view('landing.schedules', compact('learningSpaces', 'facility', 'myReservation', 'controlNumber'));
     }
 
-    public function getAvailableSlots(Request $request) {
-        $learningSpaceId = $request->learning_space_id;
-        $reservationDate = $request->reservation_date;
-        $duration = $request->duration; // Duration in hours
-
-        $carbonReservationdata = Carbon::parse($reservationDate);
-
-        // List down the possible slots during with the selected duration
-        $startHour = 7; // Facility opening hour
-        $endHour = 17; // Facility closing hour
-
-        $timeSlots = [];
-        
-        for ($hour = $startHour; $hour < $endHour; $hour++) {
-            for ($duration = 1; $duration <= 5; $duration++) {
-                if ($hour + $duration <= $endHour) {
-                    $timeSlots[] = [
-                        'start' => Carbon::createFromTime($hour, 0)->setDate($carbonReservationdata->format('Y'), $carbonReservationdata->format('m'), $carbonReservationdata->format('d')),
-                        'end' => Carbon::createFromTime($hour + $duration, 0)->setDate($carbonReservationdata->format('Y'), $carbonReservationdata->format('m'), $carbonReservationdata->format('d')),
-                        'duration' => $duration,
-                        'availability' => "Available"
-                    ];
-                }
-            }
-        }
-
-        // Fetch all reservations for the selected learning space on the specified date
-        $reservations = Reservation::where('learning_space_id', $learningSpaceId)
-            ->where('reservation_date', $reservationDate)
-            ->orderBy('start_time')
-            ->get();
-
-        $index = 0;
-
-        foreach ($timeSlots as $timeSlot) {
-            $slotStart = $timeSlot['start'];
-            $slotEnd = $timeSlot['end'];
-            $slotDruation = $timeSlot['duration'];
-        
-            $isAvailable = true;
-        
-            foreach ($reservations as $reservation) {
-                $reservationStart = Carbon::createFromTimestamp(strtotime($reservation->reservation_date . $reservation->start_time));
-                $reservationEnd = Carbon::createFromTimestamp(strtotime($reservation->reservation_date . $reservation->end_time));
-
-                // Check if the time slot overlaps with the reservation
-                if (
-                    ($reservationStart->copy()->addSecond()->between($slotStart, $slotEnd)) ||
-                    ($reservationEnd->copy()->subSecond()->between($slotStart, $slotEnd))
-                ) {
-                    $isAvailable = false;
-                    break;
-                }
-            }
-
-            $timeSlots[$index] = [
-                'start' => $slotStart->format('g:i A'),
-                'end' => $slotEnd->format('g:i A'),
-                'duration' => $slotDruation,
-                'availability' => $isAvailable ? "Available" : "Reserved"
-            ];
-
-            $index++;
-        }
-
-        return response()->json($timeSlots);
+    public function generateControlNumber($learningSpaceCode, $reservationDate, $startTime, $endTime, $duration) {
+        // Format the reservation date
+        $formattedDate = date('Ymd', strtotime($reservationDate));
+    
+        // Ensure start time and end time are in HH format
+        $formattedStartTime = str_pad(Carbon::parse($startTime)->format('H'), 2, '0', STR_PAD_LEFT);
+        $formattedEndTime = str_pad(Carbon::parse($endTime)->format('H'), 2, '0', STR_PAD_LEFT);
+    
+        // Concatenate the components to form the control number
+        $controlNumber = $learningSpaceCode . '-' . $formattedDate . '-' . $formattedStartTime . '-' . $formattedEndTime . '-' . $duration;
+    
+        return $controlNumber;
     }
 
     /**
@@ -182,5 +139,73 @@ class ScheduleController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getAvailableSlots(Request $request) {
+        $learningSpaceId = $request->learning_space_id;
+        $reservationDate = $request->reservation_date;
+        $duration = $request->duration; // Duration in hours
+
+        $carbonReservationdata = Carbon::parse($reservationDate);
+
+        // List down the possible slots during with the selected duration
+        $startHour = 7; // Facility opening hour
+        $endHour = 17; // Facility closing hour
+
+        $timeSlots = [];
+        
+        for ($hour = $startHour; $hour < $endHour; $hour++) {
+            for ($duration = 1; $duration <= 5; $duration++) {
+                if ($hour + $duration <= $endHour) {
+                    $timeSlots[] = [
+                        'start' => Carbon::createFromTime($hour, 0)->setDate($carbonReservationdata->format('Y'), $carbonReservationdata->format('m'), $carbonReservationdata->format('d')),
+                        'end' => Carbon::createFromTime($hour + $duration, 0)->setDate($carbonReservationdata->format('Y'), $carbonReservationdata->format('m'), $carbonReservationdata->format('d')),
+                        'duration' => $duration,
+                        'availability' => "Available"
+                    ];
+                }
+            }
+        }
+
+        // Fetch all reservations for the selected learning space on the specified date
+        $reservations = Reservation::where('learning_space_id', $learningSpaceId)
+            ->where('reservation_date', $reservationDate)
+            ->orderBy('start_time')
+            ->get();
+
+        $index = 0;
+
+        foreach ($timeSlots as $timeSlot) {
+            $slotStart = $timeSlot['start'];
+            $slotEnd = $timeSlot['end'];
+            $slotDruation = $timeSlot['duration'];
+        
+            $isAvailable = true;
+        
+            foreach ($reservations as $reservation) {
+                $reservationStart = Carbon::createFromTimestamp(strtotime($reservation->reservation_date . $reservation->start_time));
+                $reservationEnd = Carbon::createFromTimestamp(strtotime($reservation->reservation_date . $reservation->end_time));
+
+                // Check if the time slot overlaps with the reservation
+                if (
+                    ($reservationStart->copy()->addSecond()->between($slotStart, $slotEnd)) ||
+                    ($reservationEnd->copy()->subSecond()->between($slotStart, $slotEnd))
+                ) {
+                    $isAvailable = false;
+                    break;
+                }
+            }
+
+            $timeSlots[$index] = [
+                'start' => $slotStart->format('g:i A'),
+                'end' => $slotEnd->format('g:i A'),
+                'duration' => $slotDruation,
+                'availability' => $isAvailable ? "Available" : "Reserved"
+            ];
+
+            $index++;
+        }
+
+        return response()->json($timeSlots);
     }
 }

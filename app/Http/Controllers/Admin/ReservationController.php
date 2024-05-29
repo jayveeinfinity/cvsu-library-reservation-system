@@ -16,7 +16,7 @@ class ReservationController extends Controller
     public function index()
     {
         // $selectedDate = today();
-        $selectedDate = '2024-05-20';
+        $selectedDate = today();
 
         $reservations = Reservation::where('reservation_date', $selectedDate)
             ->orderBy('reservation_date')
