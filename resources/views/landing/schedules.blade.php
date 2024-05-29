@@ -172,26 +172,40 @@
       </div>
       <div class="card">
         <div class="card-horizontal">
-            <div class="img-square-wrapper">
-                <img class="" src="images/landing/library.jpg" alt="Card image cap" style="height: 180px;">
-            </div>
-            <div class="card-body">
-              @php
-                $reservation_date = Carbon\Carbon::parse($myReservation->reservation_date);
-                $start_time = Carbon\Carbon::createFromTimestamp(strtotime(today()->format('Y-m-d') . $myReservation->start_time));
-                $end_time = Carbon\Carbon::createFromTimestamp(strtotime(today()->format('Y-m-d') . $myReservation->end_time));
+          @php
+            $status = "badge-primary";
 
-                $duration = $end_time->diff($start_time);
-              @endphp
-              <!-- <h3>{{ $controlNumber }} </h3> -->
-              <h4 class="card-title">{{ $myReservation->learningSpace->name  }} <span class="badge badge-pill badge-primary">{{ Str::upper($myReservation->status) }}</span></h4>
-              <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Date</span> {{ $reservation_date->format('F d, Y') }} ({{$reservation_date->format('l')}})</p>
-              <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Time</span> {{ Carbon\Carbon::parse($myReservation->start_time)->format('H:i A') }} - {{ Carbon\Carbon::parse($myReservation->end_time)->format('H:i A') }} ({{ $duration->format('%h') }} hours)</p>
-              <p class="card-text"><span class="badge badge-pill badge-warning">Participants</span> {{ $myReservation->no_of_guests}}</p>
-            </div>
+            switch($myReservation->status) {
+                case "pending":
+                    $status = "badge-primary";
+                    break;
+                case "confirmed":
+                    $status = "badge-success";
+                    break;
+                case "rejected":
+                    $status = "badge-danger";
+                    break;
+            }
+            $reservation_date = Carbon\Carbon::parse($myReservation->reservation_date);
+            $start_time = Carbon\Carbon::createFromTimestamp(strtotime(today()->format('Y-m-d') . $myReservation->start_time));
+            $end_time = Carbon\Carbon::createFromTimestamp(strtotime(today()->format('Y-m-d') . $myReservation->end_time));
+
+            $duration = $end_time->diff($start_time);
+            $image = $myReservation->learningSpace->slug == "collaboration-room" ? "collaboration-area" : "learning-common-1";
+          @endphp
+          <div class="img-square-wrapper">
+              <img class="" src="images/facilities/{{ $image }}.jpg" alt="Card image cap" style="height: 180px;">
+          </div>
+          <div class="card-body">
+            <!-- <h3>{{ $controlNumber }} </h3> -->
+            <h4 class="card-title">{{ $myReservation->learningSpace->name  }} <span class="badge badge-pill {{ $status }}">{{ Str::upper($myReservation->status) }}</span></h4>
+            <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Date</span> {{ $reservation_date->format('F d, Y') }} ({{$reservation_date->format('l')}})</p>
+            <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Time</span> {{ Carbon\Carbon::parse($myReservation->start_time)->format('h:i A') }} - {{ Carbon\Carbon::parse($myReservation->end_time)->format('h:i A') }} ({{ $duration->format('%h') }} hours)</p>
+            <p class="card-text"><span class="badge badge-pill badge-warning">Participants</span> {{ $myReservation->no_of_guests}}</p>
+          </div>
         </div>
         <div class="card-footer">
-            <small class="text-muted">Date confirmed: {{ $reservation_date->format('F d, Y') }}</small>
+            <small class="text-muted">Date booked: {{ $reservation->created_at->format('F d, Y') }}</small>
         </div>
       </div>
     </div>
@@ -344,6 +358,8 @@
                 willClose: () => {
                   $(document).ready(function() {
                     $('#reservationModal').modal('hide');
+
+                    window.location = "{{ route('schedules.index') }}";
                   });
                 }
               });

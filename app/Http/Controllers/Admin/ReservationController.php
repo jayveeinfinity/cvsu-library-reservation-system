@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Reservation;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,17 +14,41 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $selectedDate = today();
+        $status = $request->status;
+        $date_type = $request->date_type ?? 'All';
         $selectedDate = today();
 
-        $reservations = Reservation::where('reservation_date', $selectedDate)
+        // Build the query
+        $query = Reservation::query();
+
+        // Apply status filter if provided
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        // Apply date range filter if provided
+        if ($date_type == 'Today') {
+            $query->where('reservation_date', $selectedDate);
+        } elseif ($date_type == 'Recent') {
+            $query->where('reservation_date', '<', $selectedDate);
+        }
+
+        if($status == 'Pending') {
+            $query->where('status', 'pending');
+        }
+
+        // Execute the query and get the results
+        $reservations = $query
             ->orderBy('reservation_date')
             ->orderBy('start_time')
             ->get();
 
-        return view('admin.reservations.index', compact('reservations'));
+        // $reservations = Reservation::where('reservation_date', $selectedDate)
+        //     ->get();
+
+        return view('admin.reservations.index', compact('reservations', 'date_type'));
     }
 
     /**
@@ -90,5 +115,27 @@ class ReservationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function approve($id) {
+        $reservation = Reservation::findOrFail($id);
+
+        $reservation->update([
+            'status' => "confirmed",
+            'approved_by' => auth()->user()->id,
+        ]);
+
+        return response()->json(['message' => 'Reservation approved successfully.']);
+    }
+
+    public function reject($id) {
+        $reservation = Reservation::findOrFail($id);
+
+        $reservation->update([
+            'status' => "rejected",
+            'approved_by' => auth()->user()->id
+        ]);
+
+        return response()->json(['message' => 'Reservation rejected successfully.']);
     }
 }

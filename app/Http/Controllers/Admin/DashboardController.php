@@ -19,10 +19,11 @@ class DashboardController extends Controller
     {
         $usersCount = User::count();
         $learningSpaceCount = LearningSpace::count();
-        $reservations = Reservation::where('status', 'pending')->get();
+        $reservations = Reservation::all();
         $reservationCount = $reservations->count();
+        $rejectedReservation = Reservation::where('status', 'rejected')->count();
 
-        return view('admin.dashboard', compact('usersCount', 'learningSpaceCount', 'reservations', 'reservationCount'));
+        return view('admin.dashboard', compact('usersCount', 'learningSpaceCount', 'reservations', 'reservationCount', 'rejectedReservation'));
     }
 
     /**

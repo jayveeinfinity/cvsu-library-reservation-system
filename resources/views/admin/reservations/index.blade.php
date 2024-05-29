@@ -32,9 +32,9 @@
                 <div class="card">
                     <div class="card-header d-flex flex-row justify-content-between align-items-center">
                         <h3 class="card-title">Reservations</h3>
-                        <div class="w-100 text-right">
+                        <!-- <div class="w-100 text-right">
                             <a class="btn bg-gradient-success btn-sm" href="?view=thesesmanagementsystem&amp;action=create"><i class="fas fa-plus"></i> Create reservation</a>
-                        </div>
+                        </div> -->
                         <!-- <div class="btn-group btn-group-toggle float-right border border-secondary rounded mr-3">
                             <label class="btn btn-sm btn-light bg-green">
                                 <a href="javascript:void(0)">Default</a>
@@ -69,9 +69,10 @@
                             </div> -->
                             <div class="row px-2 pt-0 pb-3">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-outlined btn-default">All</button>
-                                    <button type="button" class="btn btn-primary">Today</button>
-                                    <button type="button" class="btn btn-outlined btn-default">Recent</button>
+                                    <a type="button" class="{{ $date_type == 'All' ? 'btn btn-primary' : 'btn btn-outlined btn-default' }}" href="{{ route('admin.reservations.index', ['date_type' => 'All']) }}">All</a>
+                                    <a type="button" class="{{ $date_type == 'Today' ? 'btn btn-primary' : 'btn btn-outlined btn-default' }}" href="{{ route('admin.reservations.index', ['date_type' => 'Today']) }}">Today</a>
+                                    <a type="button" class="{{ $date_type == 'Pending' ? 'btn btn-primary' : 'btn btn-outlined btn-default' }}" href="{{ route('admin.reservations.index', ['status' => 'Pending']) }}">Pending</a>
+                                    <a type="button" class="{{ $date_type == 'Recent' ? 'btn btn-primary' : 'btn btn-outlined btn-default' }}" href="{{ route('admin.reservations.index', ['date_type' => 'Recent']) }}">Recent</a>
                                 </div>
                             </div>
                             <div class="row">
@@ -117,11 +118,14 @@
                                                                 
                                                         @endswitch
                                                     </td>
-                                                    <td>{{ $reservation->processedBy->name }}</td>
+                                                    <td>{{ $reservation->processedBy->name ?? NULL }}</td>
                                                     <td>
                                                         <!-- <a class="btn mr-2 mb-2 bg-gradient-success btn-sm" style="width: 36px;" href="?parent=catalog&amp;child=ebooks&amp;action=read&amp;id=3079" data-id="3079"><i class="fas fa-eye"></i></a>
                                                         <a class="btn mr-2 mb-2 bg-gradient-warning text-white btn-sm" style="width: 36px;" href="https://link.springer.com/book/10.1007/978-3-030-57562-5 " target="_blank"><i class="fas fa-link"></i></a> -->
-                                                        <a class="btn mr-2 mb-2 bg-gradient-primary btn-sm"  href="#"><i class="fas fa-edit"></i> Edit</a></td>
+                                                        <!-- <a class="btn mr-2 mb-2 bg-gradient-primary btn-sm"  href="#"><i class="fas fa-edit"></i> Edit</a></td> -->
+                                                        <a class="btn mr-2 mb-2 bg-gradient-success btn-sm"  href="javascript:void(0)" data-submit="approveReservation" data-id="{{ $reservation->id }}"><i class="fas fa-check"></i> Approve</a>
+                                                        <a class="btn mr-2 mb-2 bg-gradient-danger btn-sm"  href="javascript:void(0)" data-submit="rejectReservation" data-id="{{ $reservation->id }}"><i class="fas fa-ban"></i> Reject</a>
+                                                    </td>
                                                 </tr>
                                             @empty
                                                 <p>No reservations for today.</p>
@@ -149,4 +153,108 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="reservationModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="reservationModalLabel">Reject reservation</h5>
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button> -->
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <form class="px-3" data-form="rejectionForm">
+                            <div class="form-group">
+                                <label for="reasonOfRejection">Reason of rejection</label>
+                                <textarea class="form-control" placeholder="Type reason of rejection..." style="height: 100px;" data-textarea="reason" required></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <a type="button" class="button-sm button-secondary" data-dismiss="modal"><i class="fas fa-arrow-left"></i> Cancel</a>
+            <button type="button" class="button-sm button-warning border-0" data-submit="confirmRejectReservation" disabled>Confirm reject</button>
+        </div>
+        </div>
+</div>
+</div>
+<script>
+    let id = null;
+
+    document.addEventListener("click", (e) => {
+        e = e || window.event;
+        var target = e.target || e.srcElement;
+        switch(target.dataset.submit) {
+            case "approveReservation":
+                var formData = new FormData();
+                formData.append('_token', "{{ csrf_token() }}");
+                $.ajax({
+                    type: "POST",
+                    url: "reservations/" + target.dataset.id + "/approve",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                        willClose: () => {
+                        $(document).ready(function() {
+                            $('#reservationModal').modal('hide');
+                            window.location = "{{ route('admin.reservations.index') }}";
+                        });
+                        }
+                    });
+                    }
+                });
+                break;
+            case "rejectReservation":
+                $(document).ready(function() {
+                    $('#reservationModal').modal('show');
+                });
+                id = target.dataset.id;
+                break;
+            case "confirmRejectReservation":
+                var formData = new FormData();
+                formData.append('reason', reasonTextArea.value);
+                formData.append('_token', "{{ csrf_token() }}");
+                $.ajax({
+                    type: "POST",
+                    url: "reservations/" + id + "/reject",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: response.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                        willClose: () => {
+                        $(document).ready(function() {
+                            $('#reservationModal').modal('hide');
+                            window.location = "{{ route('admin.reservations.index') }}";
+                        });
+                        }
+                    });
+                    }
+                });
+                break;
+        }
+    });
+
+    const rejectionForm = document.querySelector('[data-form="rejectionForm"]');
+    const rejectButton = document.querySelector('[data-submit="confirmRejectReservation"]');
+    const reasonTextArea = document.querySelector('[data-textarea="reason"]');
+
+    rejectionForm.addEventListener('input', function () {
+        rejectButton.disabled = !reasonTextArea.value;
+    });
+</script>
 @endsection

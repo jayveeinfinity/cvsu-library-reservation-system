@@ -98,7 +98,7 @@
                                                     <td>
                                                         <!-- <a class="btn mr-2 mb-2 bg-gradient-success btn-sm" style="width: 36px;" href="?parent=catalog&amp;child=ebooks&amp;action=read&amp;id=3079" data-id="3079"><i class="fas fa-eye"></i></a>
                                                         <a class="btn mr-2 mb-2 bg-gradient-warning text-white btn-sm" style="width: 36px;" href="https://link.springer.com/book/10.1007/978-3-030-57562-5 " target="_blank"><i class="fas fa-link"></i></a> -->
-                                                        <a class="btn mr-2 mb-2 bg-gradient-primary btn-sm" href="#"><i class="fas fa-edit"></i> Edit</a>
+                                                        <a class="btn mr-2 mb-2 bg-gradient-success btn-sm" href="#"><i class="fas fa-eye"></i> View</a>
                                                     </td>
                                                 </tr>
                                             @empty
