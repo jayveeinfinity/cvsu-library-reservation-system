@@ -20,15 +20,33 @@ class ScheduleController extends Controller
         $learningSpaces = LearningSpace::all();
         $userId = auth()->user()->id ?? NULL;
         $myReservation = NULL;
+        $controlNumber = NULL;
 
         if($userId) {
             $myReservation = Reservation::where('user_id', $userId)
-                ->where('reservation_date', '>', today())
-                ->where('status', 'pending')
+                ->where('reservation_date', '>=', today()->format('Y-m-d'))
                 ->first();
-        }
 
-        $controlNumber = $this->generateControlNumber('LC1', $myReservation->reservation_date, $myReservation->start_time, $myReservation->end_time, 2);
+            if($myReservation) {
+                $code = NULL;
+                switch($myReservation->learningSpace->slug) {
+                    case "collaboration-room":
+                        $code = "CLB";
+                        break;
+                    case "learning-commons-1":
+                        $code = "LC1";
+                        break;
+                    case "learning-commons-2":
+                        $code = "LC2";
+                        break;
+                    case "learning-commons-3":
+                        $code = "LC3";
+                        break;
+                }
+
+                $controlNumber = $this->generateControlNumber($code, $myReservation->reservation_date, $myReservation->start_time, $myReservation->end_time, 2);
+            }
+        }
         
         return view('landing.schedules', compact('learningSpaces', 'facility', 'myReservation', 'controlNumber'));
     }

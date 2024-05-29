@@ -60,46 +60,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/reservations', [ReservationController::class, 'index'])->name('admin.reservations.index');
         Route::get('/learning-spaces', [LearningSpaceController::class, 'index'])->name('admin.learningspaces.index');
         Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
-    /*
-    |--------------------------------------------------------------------------
-    | Violation Management System
-    |--------------------------------------------------------------------------
-    */
-        Route::get('/violations/create', function () {
-            return view('violationForm');
-        })->name('admin.violationList');
 
-        Route::get('/violations', [ViolationController::class, 'showForm'])->name('admin.result');
-        Route::post('/store', [ViolationController::class, 'store'])->name('admin.store');
-        Route::get('/update/{id}', [ViolationController::class, 'update'])->name('update');
-        Route::get('/search',[ViolationController::class, 'search'])->name('admin.search');
-        Route::get('/filter', [ViolationController::class, 'filter'])->name('filter');
-        Route::post('/patron/search', [ViolationController::class, 'findPatron']);
-        Route::post('/select', [ViolationController::class, 'select'])->name('admin.select');
-    /*
-    |--------------------------------------------------------------------------
-    | WiFi Logging Management System
-    |--------------------------------------------------------------------------
-    */
-        Route::get('/wifi', function () {
-            return view('wifi');
-        })->name('admin.wifi');
-        Route::get('/chart', [WifiLogsController::class, 'chart'])->name('chart');
-        Route::get('/recent', [WifiLogsController::class, 'recent'])->name('recent');
-        Route::post('/admin.wifi', [WifiLogsController::class, 'store'])->name('store');
-    /*
-    |--------------------------------------------------------------------------
-    | In House Management System
-    |--------------------------------------------------------------------------
-    */
-        Route::get('/inhouse', [InHouseLogsController::class, 'index'])->name('admin.inhouse');
-        Route::get('/inhouse/chart', [InHouseLogsController::class, 'chartInfo']);
-        Route::get('/inhouse/classification', [InHouseClassificationsController::class, 'class'])->name('admin.inhouse.class');
-        Route::get('/inhouse/editclassification', [InHouseClassificationsController::class, 'editView'])->name('admin.editclass');
-        Route::get('/inhouse/editclassification/{id}', [InHouseClassificationsController::class, 'edit']);
-        Route::get('/inhouse/classification/{id}', [InHouseClassificationsController::class, 'show']);
-        Route::post('/inhouse/addclassification', [InHouseClassificationsController::class, 'store'])->name('admin.InHouseAddClass');
-        Route::post('/inhouse/addlogs', [InHouseLogsController::class, 'store'])->name('admin.InHouseAddLogs');
-        Route::patch('/inhouse/editclassification/{id}/edit', [InHouseClassificationsController::class, 'update']);
+        Route::post('/reservations/{id}/approve', [ReservationController::class, 'approve'])->name('admin.reservations.approve');
+        Route::post('/reservations/{id}/reject', [ReservationController::class, 'reject'])->name('admin.reservations.reject');
     });
 });

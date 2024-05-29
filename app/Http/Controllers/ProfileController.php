@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -13,7 +14,45 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('pages.profile');
+        $userId = auth()->user()->id ?? NULL;
+        $myReservation = NULL;
+        $pastReservation = NULL;
+        $controlNumber = NULL;
+
+        if($userId) {
+            $myReservation = Reservation::where('user_id', $userId)
+                ->where('reservation_date', '>=', today()->format('Y-m-d'))
+                ->where('status', '<>', 'rejected')
+                ->first();
+
+                
+            $pastReservation = Reservation::where('user_id', $userId)
+                ->where('reservation_date', '>', today()->format('Y-m-d'))
+                ->orderBy('reservation_date')
+                ->take(10)
+                ->get();
+
+            if($myReservation) {
+                $code = NULL;
+                switch($myReservation->learningSpace->slug) {
+                    case "collaboration-room":
+                        $code = "CLB";
+                        break;
+                    case "learning-commons-1":
+                        $code = "LC1";
+                        break;
+                    case "learning-commons-2":
+                        $code = "LC2";
+                        break;
+                    case "learning-commons-3":
+                        $code = "LC3";
+                        break;
+                }
+
+                // $controlNumber = $this->generateControlNumber($code, $myReservation->reservation_date, $myReservation->start_time, $myReservation->end_time, 2);
+            }
+        }
+        return view('pages.profile', compact('myReservation', 'pastReservation', 'controlNumber'));
     }
 
     /**

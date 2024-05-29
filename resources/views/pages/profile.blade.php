@@ -116,41 +116,90 @@
                                 <div class="tab-content">
                                     <div class="active tab-pane" id="reservations">
                                         <h5>My Reservations</h5>
-                                        <!-- <p class="text-muted">No active reservations yet.</p> -->
+                                        @if(!$myReservation)
+                                            <p class="text-muted">No active reservations yet.</p>
+                                        @else
                                         <div class="card">
                                             <div class="card-horizontal">
+                                                @php
+                                                    $status = "badge-primary";
+
+                                                    switch($myReservation->status) {
+                                                        case "pending":
+                                                            $status = "badge-primary";
+                                                            break;
+                                                        case "confirmed":
+                                                            $status = "badge-success";
+                                                            break;
+                                                        case "rejected":
+                                                            $status = "badge-danger";
+                                                            break;
+                                                    }
+                                                    $reservation_date = Carbon\Carbon::parse($myReservation->reservation_date);
+                                                    $start_time = Carbon\Carbon::createFromTimestamp(strtotime(today()->format('Y-m-d') . $myReservation->start_time));
+                                                    $end_time = Carbon\Carbon::createFromTimestamp(strtotime(today()->format('Y-m-d') . $myReservation->end_time));
+
+                                                    $duration = $end_time->diff($start_time);
+                                                    $image = $myReservation->learningSpace->slug == "collaboration-room" ? "collaboration-area" : "learning-common-1";
+                                                @endphp
                                                 <div class="img-square-wrapper">
-                                                    <img class="" src="images/landing/library.jpg" alt="Card image cap" style="height: 180px;">
+                                                    <img class="" src="images/facilities/{{ $image }}.jpg" alt="Card image cap" style="height: 180px;">
                                                 </div>
                                                 <div class="card-body">
-                                                    <h4 class="card-title">Collaboration Room <i class="fas fa-check-circle text-success"></i></h4>
-                                                    <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Date</span> May 15, 2024 (Wednesday)</p>
-                                                    <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Time</span> 9:00 AM - 11:00 AM (2 hours)</p>
-                                                    <p class="card-text"><span class="badge badge-pill badge-warning">Participants</span> 16</p>
+                                                <!-- <h3>{{ $controlNumber }} </h3> -->
+                                                <h4 class="card-title">{{ $myReservation->learningSpace->name  }} <span class="badge badge-pill {{ $status }}">{{ Str::upper($myReservation->status) }}</span></h4>
+                                                <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Date</span> {{ $reservation_date->format('F d, Y') }} ({{$reservation_date->format('l')}})</p>
+                                                <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Time</span> {{ Carbon\Carbon::parse($myReservation->start_time)->format('h:i A') }} - {{ Carbon\Carbon::parse($myReservation->end_time)->format('h:i A') }} ({{ $duration->format('%h') }} hours)</p>
+                                                <p class="card-text"><span class="badge badge-pill badge-warning">Participants</span> {{ $myReservation->no_of_guests}}</p>
                                                 </div>
                                             </div>
                                             <div class="card-footer">
-                                                <small class="text-muted">Date confirmed: May 14, 2024</small>
+                                                <small class="text-muted">Date confirmed: {{ $reservation_date->format('F d, Y') }}</small>
                                             </div>
                                         </div>
+                                        @endif
                                         <h5>Past Reservations</h5>
-                                        <!-- <p class="text-muted">No past reservations yet.</p> -->
+                                        @forelse($pastReservation as $reservation)
                                         <div class="card">
                                             <div class="card-horizontal">
+                                                @php
+                                                    $status = "badge-primary";
+
+                                                    switch($reservation->status) {
+                                                        case "pending":
+                                                            $status = "badge-primary";
+                                                            break;
+                                                        case "confirmed":
+                                                            $status = "badge-success";
+                                                            break;
+                                                        case "rejected":
+                                                            $status = "badge-danger";
+                                                            break;
+                                                    }
+                                                    $reservation_date = Carbon\Carbon::parse($reservation->reservation_date);
+                                                    $start_time = Carbon\Carbon::createFromTimestamp(strtotime(today()->format('Y-m-d') . $reservation->start_time));
+                                                    $end_time = Carbon\Carbon::createFromTimestamp(strtotime(today()->format('Y-m-d') . $reservation->end_time));
+
+                                                    $duration = $end_time->diff($start_time);
+                                                    $image = $reservation->learningSpace->slug == "collaboration-room" ? "collaboration-area" : "learning-common-1";
+                                                @endphp
                                                 <div class="img-square-wrapper">
-                                                    <img class="" src="images/landing/library.jpg" alt="Card image cap" style="height: 180px;">
+                                                    <img src="images/facilities/{{ $image }}.jpg" alt="Card image cap" style="height: 180px;">
                                                 </div>
                                                 <div class="card-body">
-                                                    <h4 class="card-title">Collaboration Room <i class="fas fa-ban text-danger"></i></h4>
-                                                    <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Date</span> May 15, 2024 (Wednesday)</p>
-                                                    <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Time</span> 9:00 AM - 11:00 AM (2 hours)</p>
-                                                    <p class="card-text"><span class="badge badge-pill badge-warning">Participants</span> 16</p>
+                                                    <h4 class="card-title">{{ $reservation->learningSpace->name }} <span class="badge badge-pill {{ $status }}">{{ Str::upper($myReservation->status) }}</span></h4>
+                                                    <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Date</span>  {{ $reservation_date->format('F d, Y') }} ({{$reservation_date->format('l')}})</p>
+                                                    <p class="card-text mb-0"><span class="badge badge-pill badge-warning">Time</span> {{ Carbon\Carbon::parse($myReservation->start_time)->format('h:i A') }} - {{ Carbon\Carbon::parse($myReservation->end_time)->format('h:i A') }} ({{ $duration->format('%h') }} hours)</p>
+                                                    <p class="card-text"><span class="badge badge-pill badge-warning">Participants</span> {{ $myReservation->no_of_guests}}</p>
                                                 </div>
                                             </div>
                                             <div class="card-footer">
-                                                <small class="text-muted">Date confirmed: May 14, 2024</small>
+                                                <small class="text-muted">Date booked: {{ $reservation->created_at->format('F d, Y') }}</small>
                                             </div>
                                         </div>
+                                        @empty
+                                            <p class="text-muted">No past reservations yet.</p>
+                                        @endforelse
                                         <!-- <div class="post">
                                             <div class="user-block">
                                                 <img class="img-circle img-bordered-sm" src="https://scontent.fmnl4-6.fna.fbcdn.net/v/t39.30808-6/260050783_2043737332468273_7925948207164743609_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=174925&_nc_eui2=AeH60MKhDxaRSA3os3qWSR8KZwSz_ZCzIO9nBLP9kLMg749Sd0pvf_aMXKCVS-RM0sc5q2PRX3Bi8czOgs45tF5b&_nc_ohc=9ibeWJjfkWAAX8jwZ6_&_nc_ht=scontent.fmnl4-6.fna&oh=00_AT9LiW6caVP0rJuyuHbnaUfPa917f4lH4VMORlx7M_nn0Q&oe=6314E8EE" alt="user image">
