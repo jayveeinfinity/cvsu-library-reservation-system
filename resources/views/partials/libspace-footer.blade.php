@@ -48,7 +48,7 @@
     </div>
     <div class="footer-links col2">
       <a href="{{ route('landing.rules') }}">Rules & Regulations</a>
-      <a href="#">Help Center</a>
+      <!-- <a href="#">Help Center</a> -->
       <!-- <a href="#">Privacy Policy</a> -->
     </div>
     <div class="footer-cta">

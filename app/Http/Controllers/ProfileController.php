@@ -27,7 +27,7 @@ class ProfileController extends Controller
 
                 
             $pastReservation = Reservation::where('user_id', $userId)
-                ->where('reservation_date', '>', today()->format('Y-m-d'))
+                ->where('reservation_date', '<', today()->format('Y-m-d'))
                 ->orderBy('reservation_date')
                 ->take(10)
                 ->get();
@@ -52,7 +52,27 @@ class ProfileController extends Controller
                 // $controlNumber = $this->generateControlNumber($code, $myReservation->reservation_date, $myReservation->start_time, $myReservation->end_time, 2);
             }
         }
-        return view('pages.profile', compact('myReservation', 'pastReservation', 'controlNumber'));
+        
+
+        $patronData = [];
+
+        if(auth()->user()) {
+            $apiController = new APIController();
+            $data = $apiController->request('GET', 'http://library.cvsu.edu.ph/sandbox/laravel/api/patrons/' . auth()->user()->email);
+
+            if(array_key_exists('data', $data)) {
+                $patronData = collect($data['data']);
+            } else if (array_key_exists('error', $data)) {
+                $patronData = $data['error'];
+            }
+        }
+
+        return view('pages.profile', compact(
+            'myReservation',
+            'pastReservation',
+            'controlNumber',
+            'patronData'
+        ));
     }
 
     /**

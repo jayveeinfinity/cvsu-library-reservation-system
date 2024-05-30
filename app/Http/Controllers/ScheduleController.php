@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LearningSpace;
 use Carbon\Carbon;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use App\Models\LearningSpace;
+use App\Http\Controllers\APIController;
 
 class ScheduleController extends Controller
 {
@@ -47,8 +48,27 @@ class ScheduleController extends Controller
                 $controlNumber = $this->generateControlNumber($code, $myReservation->reservation_date, $myReservation->start_time, $myReservation->end_time, 2);
             }
         }
+
+        $patronData = [];
+
+        if(auth()->user()) {
+            $apiController = new APIController();
+            $data = $apiController->request('GET', 'http://library.cvsu.edu.ph/sandbox/laravel/api/patrons/' . auth()->user()->email);
+
+            if(array_key_exists('data', $data)) {
+                $patronData = $data['data'];
+            } else if (array_key_exists('error', $data)) {
+                $patronData = $data['error'];
+            }
+        }
         
-        return view('landing.schedules', compact('learningSpaces', 'facility', 'myReservation', 'controlNumber'));
+        return view('landing.schedules', compact(
+            'learningSpaces',
+            'facility',
+            'myReservation',
+            'controlNumber',
+            'patronData'
+        ));
     }
 
     public function generateControlNumber($learningSpaceCode, $reservationDate, $startTime, $endTime, $duration) {

@@ -16,8 +16,8 @@ class ReservationController extends Controller
      */
     public function index(Request $request)
     {
-        $status = $request->status;
-        $date_type = $request->date_type ?? 'All';
+        $status = $request->status ?? '';
+        $date_type = $request->date_type ?? '';
         $selectedDate = today();
 
         // Build the query
@@ -48,7 +48,7 @@ class ReservationController extends Controller
         // $reservations = Reservation::where('reservation_date', $selectedDate)
         //     ->get();
 
-        return view('admin.reservations.index', compact('reservations', 'date_type'));
+        return view('admin.reservations.index', compact('reservations', 'date_type', 'status'));
     }
 
     /**
@@ -122,18 +122,19 @@ class ReservationController extends Controller
 
         $reservation->update([
             'status' => "confirmed",
-            'approved_by' => auth()->user()->id,
+            'processed_by' => auth()->user()->id,
         ]);
 
         return response()->json(['message' => 'Reservation approved successfully.']);
     }
 
-    public function reject($id) {
+    public function reject(Request $request, $id) {
         $reservation = Reservation::findOrFail($id);
 
         $reservation->update([
             'status' => "rejected",
-            'approved_by' => auth()->user()->id
+            'processed_by' => auth()->user()->id,
+            'reason' => $request->reason
         ]);
 
         return response()->json(['message' => 'Reservation rejected successfully.']);

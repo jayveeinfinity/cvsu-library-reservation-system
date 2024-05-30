@@ -18,7 +18,7 @@ class CreateGoogleUserInfoTable extends Migration
             $table->text('gid');
             $table->string('email');
             $table->string('givenName');
-            $table->string('familyName');
+            $table->string('familyName')->nullable();
             $table->string('name');
             $table->text('picture');
             $table->boolean('verifiedEmail');
