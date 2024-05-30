@@ -68,11 +68,15 @@
                                 </div>
                             </div> -->
                             <div class="row px-2 pt-0 pb-3">
-                                <div class="btn-group" role="group" aria-label="Basic example">
+                                <div class="btn-group mr-3" role="group" aria-label="Basic example">
                                     <a type="button" class="{{ $date_type == 'All' ? 'btn btn-primary' : 'btn btn-outlined btn-default' }}" href="{{ route('admin.reservations.index', ['date_type' => 'All']) }}">All</a>
                                     <a type="button" class="{{ $date_type == 'Today' ? 'btn btn-primary' : 'btn btn-outlined btn-default' }}" href="{{ route('admin.reservations.index', ['date_type' => 'Today']) }}">Today</a>
-                                    <a type="button" class="{{ $date_type == 'Pending' ? 'btn btn-primary' : 'btn btn-outlined btn-default' }}" href="{{ route('admin.reservations.index', ['status' => 'Pending']) }}">Pending</a>
                                     <a type="button" class="{{ $date_type == 'Recent' ? 'btn btn-primary' : 'btn btn-outlined btn-default' }}" href="{{ route('admin.reservations.index', ['date_type' => 'Recent']) }}">Recent</a>
+                                </div>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a type="button" class="{{ $status == 'Confirmed' ? 'btn btn-primary' : 'btn btn-outlined btn-default' }}" href="{{ route('admin.reservations.index', ['status' => 'Confirmed']) }}">Confirmed</a>
+                                    <a type="button" class="{{ $status == 'Pending' ? 'btn btn-primary' : 'btn btn-outlined btn-default' }}" href="{{ route('admin.reservations.index', ['status' => 'Pending']) }}">Pending</a>
+                                    <a type="button" class="{{ $status == 'Rejected' ? 'btn btn-primary' : 'btn btn-outlined btn-default' }}" href="{{ route('admin.reservations.index', ['status' => 'Rejected']) }}">Rejected</a>
                                 </div>
                             </div>
                             <div class="row">
@@ -115,16 +119,18 @@
                                                                 @break
 
                                                             @default
-                                                                
+                                                              
                                                         @endswitch
                                                     </td>
                                                     <td>{{ $reservation->processedBy->name ?? NULL }}</td>
                                                     <td>
-                                                        <!-- <a class="btn mr-2 mb-2 bg-gradient-success btn-sm" style="width: 36px;" href="?parent=catalog&amp;child=ebooks&amp;action=read&amp;id=3079" data-id="3079"><i class="fas fa-eye"></i></a>
-                                                        <a class="btn mr-2 mb-2 bg-gradient-warning text-white btn-sm" style="width: 36px;" href="https://link.springer.com/book/10.1007/978-3-030-57562-5 " target="_blank"><i class="fas fa-link"></i></a> -->
-                                                        <!-- <a class="btn mr-2 mb-2 bg-gradient-primary btn-sm"  href="#"><i class="fas fa-edit"></i> Edit</a></td> -->
-                                                        <a class="btn mr-2 mb-2 bg-gradient-success btn-sm"  href="javascript:void(0)" data-submit="approveReservation" data-id="{{ $reservation->id }}"><i class="fas fa-check"></i> Approve</a>
-                                                        <a class="btn mr-2 mb-2 bg-gradient-danger btn-sm"  href="javascript:void(0)" data-submit="rejectReservation" data-id="{{ $reservation->id }}"><i class="fas fa-ban"></i> Reject</a>
+                                                        @if($reservation->status != 'confirmed') 
+                                                            <!-- <a class="btn mr-2 mb-2 bg-gradient-success btn-sm" style="width: 36px;" href="?parent=catalog&amp;child=ebooks&amp;action=read&amp;id=3079" data-id="3079"><i class="fas fa-eye"></i></a>
+                                                            <a class="btn mr-2 mb-2 bg-gradient-warning text-white btn-sm" style="width: 36px;" href="https://link.springer.com/book/10.1007/978-3-030-57562-5 " target="_blank"><i class="fas fa-link"></i></a> -->
+                                                            <!-- <a class="btn mr-2 mb-2 bg-gradient-primary btn-sm"  href="#"><i class="fas fa-edit"></i> Edit</a></td> -->
+                                                            <a class="btn mr-2 mb-2 bg-gradient-success btn-sm"  href="javascript:void(0)" data-submit="approveReservation" data-id="{{ $reservation->id }}"><i class="fas fa-check"></i> Approve</a>
+                                                            <a class="btn mr-2 mb-2 bg-gradient-danger btn-sm"  href="javascript:void(0)" data-submit="rejectReservation" data-id="{{ $reservation->id }}"><i class="fas fa-ban"></i> Reject</a>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @empty
@@ -239,7 +245,7 @@
                         willClose: () => {
                         $(document).ready(function() {
                             $('#reservationModal').modal('hide');
-                            window.location = "{{ route('admin.reservations.index') }}";
+                            window.location = "{{ route('admin.reservations.index', ['date_type' => 'All']) }}";
                         });
                         }
                     });

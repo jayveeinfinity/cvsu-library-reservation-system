@@ -17,13 +17,24 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $usersCount = User::count();
+        $reservationsToday = Reservation::where('reservation_date', today());
+        $reservationsPending = Reservation::where('status', 'pending');
+        $reservationsRecent = Reservation::where('reservation_date', '<', today());
+        
         $learningSpaceCount = LearningSpace::count();
-        $reservations = Reservation::all();
-        $reservationCount = $reservations->count();
+        $usersCount = User::count();
+        $reservationCount = Reservation::count();
         $rejectedReservation = Reservation::where('status', 'rejected')->count();
 
-        return view('admin.dashboard', compact('usersCount', 'learningSpaceCount', 'reservations', 'reservationCount', 'rejectedReservation'));
+        return view('admin.dashboard', compact(
+            'reservationsToday',
+            'reservationsPending',
+            'reservationsRecent',
+            'usersCount',
+            'learningSpaceCount',
+            'reservationCount',
+            'rejectedReservation'
+        ));
     }
 
     /**

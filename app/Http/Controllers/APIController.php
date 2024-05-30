@@ -24,8 +24,8 @@ class APIController extends Controller
     }
 
     public function request($method, $endpoint, $data = []) {
-        $email = 'wifilogs@library.cvsu.edu.ph';
-        $password = 'w!f!l0gs2024';
+        $email = 'reservationsystem@library.cvsu.edu.ph';
+        $password = 'password';
 
         $token = $this->auth($email, $password);
 

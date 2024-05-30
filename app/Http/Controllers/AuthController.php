@@ -38,7 +38,7 @@ class AuthController extends Controller
                 'gid'           => $socialiteUser->user['id'],
                 'email'         => $socialiteUser->user['email'],
                 'givenName'     => $socialiteUser->user['given_name'],
-                'familyName'    => $socialiteUser->user['family_name'],
+                'familyName'    => $socialiteUser->user['family_name'] ?? NULL,
                 'name'          => $socialiteUser->user['name'],
                 'picture'       => $socialiteUser->user['picture'],
                 'verifiedEmail' => $socialiteUser->user['verified_email'],
@@ -47,7 +47,8 @@ class AuthController extends Controller
 
             // Check if the email domain is using cvsu.edu.ph
             if($googleUserInfo->hd != "cvsu.edu.ph") {
-                abort(401, "You must used an email of cvsu.edu.ph");
+                $data = ['code' => 401, 'message' => "You must used an email of cvsu.edu.ph"];
+                return view('errors.index', compact('data'));
             }
 
             $user = User::updateOrCreate(

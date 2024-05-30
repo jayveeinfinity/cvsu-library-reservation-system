@@ -54,7 +54,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{{ route('admin.reservations.index', ['date_type' => 'Today']) }}" class="nav-link">
+            <a href="{{ route('admin.reservations.index', ['status' => 'Pending']) }}" class="nav-link">
               <i class="nav-icon fas fa-list"></i>
               <p>
                 Reservations
@@ -85,7 +85,7 @@
               </p>
             </a>
           </li> -->
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-bar"></i>
               <p>
@@ -100,7 +100,7 @@
                About
               </p>
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a href="{{ route('landing') }}" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>

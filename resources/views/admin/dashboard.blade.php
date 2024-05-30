@@ -65,7 +65,7 @@
                 <div class="icon">
                     <i class="fas fa-calendar-check"></i>
                 </div>
-                <a href="{{ route('admin.reservations.index') }}" class="small-box-footer">
+                <a href="{{ route('admin.reservations.index', ['date_type' => 'All']) }}" class="small-box-footer">
                     View records <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -90,50 +90,11 @@
                     <h3 class="card-title"><i class="fas fa-check-circle"></i> Today's reservations</h3>
                 </div>
                 <div class="card-body p-2">
-                    @empty($reservations)
+                    @if($reservationsToday->count() <= 0)
                     <p class="px-3 text-muted">No reservations today.</p>
-                    @endempty
+                    @endif
                     <ul class="products-list product-list-in-card px-3">
-                        @forelse($reservations as $reservation)
-                            @if($reservation->reservation_date == today()->format('Y-m-d'))
-                                @php
-                                    $status = "badge-primary";
-
-                                    switch($reservation->status) {
-                                        case "pending":
-                                            $status = "badge-primary";
-                                            break;
-                                        case "confirmed":
-                                            $status = "badge-success";
-                                            break;
-                                        case "rejected":
-                                            $status = "badge-danger";
-                                            break;
-                                    }
-                                @endphp
-                                <li class="pb-3">
-                                    <span class="badge badge-pill {{ $status }}">{{ Str::upper($reservation->status) }}</span>
-                                    {{ \Carbon\Carbon::parse($reservation->reservation_date)->format('F d, Y') }} - {{ $reservation->learningSpace->name }}
-                                    ({{ \Carbon\Carbon::parse($reservation->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($reservation->end_time)->format('g:i A') }})
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-12">
-            <div class="card">
-                <div class="card-header card-primary card-outline">
-                    <h3 class="card-title"><i class="fas fa-calendar-check"></i> Pending reservations</h3>
-                </div>
-                <div class="card-body p-2">
-                  @empty($reservations)
-                  <p class="px-3 text-muted">No pending reservations.</p>
-                  @endempty
-                  <ul class="products-list product-list-in-card px-3">
-                    @forelse($reservations as $reservation)
-                        @if($reservation->reservation_date > today()->format('Y-m-d'))
+                        @forelse($reservationsToday->get() as $reservation)
                             @php
                                 $status = "badge-primary";
 
@@ -154,7 +115,42 @@
                                 {{ \Carbon\Carbon::parse($reservation->reservation_date)->format('F d, Y') }} - {{ $reservation->learningSpace->name }}
                                 ({{ \Carbon\Carbon::parse($reservation->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($reservation->end_time)->format('g:i A') }})
                             </li>
-                        @endif
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-12">
+            <div class="card">
+                <div class="card-header card-primary card-outline">
+                    <h3 class="card-title"><i class="fas fa-calendar-check"></i> Pending reservations</h3>
+                </div>
+                <div class="card-body p-2">
+                  @if($reservationsPending->count() <= 0)
+                  <p class="px-3 text-muted">No pending reservations.</p>
+                  @endif
+                  <ul class="products-list product-list-in-card px-3">
+                    @forelse($reservationsPending->get() as $reservation)
+                        @php
+                            $status = "badge-primary";
+
+                            switch($reservation->status) {
+                                case "pending":
+                                    $status = "badge-primary";
+                                    break;
+                                case "confirmed":
+                                    $status = "badge-success";
+                                    break;
+                                case "rejected":
+                                    $status = "badge-danger";
+                                    break;
+                            }
+                        @endphp
+                        <li class="pb-3">
+                            <span class="badge badge-pill {{ $status }}">{{ Str::upper($reservation->status) }}</span>
+                            {{ \Carbon\Carbon::parse($reservation->reservation_date)->format('F d, Y') }} - {{ $reservation->learningSpace->name }}
+                            ({{ \Carbon\Carbon::parse($reservation->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($reservation->end_time)->format('g:i A') }})
+                        </li>
                     @endforeach
                   </ul>
                 </div>
@@ -166,33 +162,31 @@
                     <h3 class="card-title"><i class="fas fa-history"></i> Recent reservations</h3>
                 </div>
                 <div class="card-body p-2">
-                    @empty($reservations)
+                    @if($reservationsRecent->count() <= 0)
                     <p class="px-3 text-muted">No recent reservations.</p>
-                    @endempty
+                    @endif
                     <ul class="products-list product-list-in-card px-3">
-                        @forelse($reservations as $reservation)
-                            @if($reservation->reservation_date < today()->format('Y-m-d'))
-                                @php
-                                    $status = "badge-primary";
+                        @forelse($reservationsRecent as $reservation)
+                            @php
+                                $status = "badge-primary";
 
-                                    switch($reservation->status) {
-                                        case "pending":
-                                            $status = "badge-primary";
-                                            break;
-                                        case "confirmed":
-                                            $status = "badge-success";
-                                            break;
-                                        case "rejected":
-                                            $status = "badge-danger";
-                                            break;
-                                    }
-                                @endphp
-                                <li class="pb-3">
-                                    <span class="badge badge-pill {{ $status }}">{{ Str::upper($reservation->status) }}</span>
-                                    {{ \Carbon\Carbon::parse($reservation->reservation_date)->format('F d, Y') }} - {{ $reservation->learningSpace->name }}
-                                    ({{ \Carbon\Carbon::parse($reservation->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($reservation->end_time)->format('g:i A') }})
-                                </li>
-                            @endif
+                                switch($reservation->status) {
+                                    case "pending":
+                                        $status = "badge-primary";
+                                        break;
+                                    case "confirmed":
+                                        $status = "badge-success";
+                                        break;
+                                    case "rejected":
+                                        $status = "badge-danger";
+                                        break;
+                                }
+                            @endphp
+                            <li class="pb-3">
+                                <span class="badge badge-pill {{ $status }}">{{ Str::upper($reservation->status) }}</span>
+                                {{ \Carbon\Carbon::parse($reservation->reservation_date)->format('F d, Y') }} - {{ $reservation->learningSpace->name }}
+                                ({{ \Carbon\Carbon::parse($reservation->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($reservation->end_time)->format('g:i A') }})
+                            </li>
                         @endforeach
                     </ul>
                 </div>
