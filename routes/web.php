@@ -32,9 +32,7 @@ Route::post('/schedules/available-slots', [ScheduleController::class, 'getAvaila
 Route::get('/facilities', [FacilityController::class, 'index'])->name('landing.facilities');
 Route::get('/facilities/{slug}', [FacilityController::class, 'show'])->name('landing.facility');
 Route::get('/rules', [LandingController::class, 'rules'])->name('landing.rules');
-Route::get('/about-us', function() {
-    echo 'About us page';
-})->name('landing.aboutus');
+Route::get('/about-us', [LandingController::class, 'aboutus'])->name('landing.aboutus');
 
 Route::get('/auth', [AuthController::class, 'redirectToGoogle'])->name('google.auth');
 Route::get('/auth/callback', [AuthController::class, 'handleGoogleCallback']);

@@ -80,7 +80,7 @@
                                         @if(!$users->isEmpty())
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <!-- <th>ID</th> -->
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Role</th>
@@ -91,7 +91,7 @@
                                         <tbody>
                                             @forelse($users as $user)
                                                 <tr>
-                                                    <td style="width: 10px;">{{ $user->id }}</td>
+                                                    <!-- <td style="width: 10px;">{{ $user->id }}</td> -->
                                                     <td><a href="#">{{ $user->name }}</a></td>
                                                     <td>{{ $user->email }}</td>
                                                     <td><span class="badge badge-pill badge-primary">{{ $user->roles->first()->name }}</span></td>

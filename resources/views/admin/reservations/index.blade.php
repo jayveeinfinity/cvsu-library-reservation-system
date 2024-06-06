@@ -85,7 +85,7 @@
                                         @if(!$reservations->isEmpty())
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <!-- <th>ID</th> -->
                                                 <th>Date</th>
                                                 <th>Time</th>
                                                 <th>Learning Space</th>
@@ -99,7 +99,7 @@
                                         <tbody>
                                             @forelse($reservations as $reservation)
                                                 <tr>
-                                                    <td style="width: 10px;">{{ $reservation->id }}</td>
+                                                    <!-- <td style="width: 10px;">{{ $reservation->id }}</td> -->
                                                     <td>{{ \Carbon\Carbon::parse($reservation->reservation_date)->format('F d, Y') }}</td>
                                                     <td><span class="badge badge-pill badge-primary">{{ \Carbon\Carbon::parse($reservation->start_time)->format('g:i A') }} - {{ \Carbon\Carbon::parse($reservation->end_time)->format('g:i A') }}</span></td>
                                                     <td>{{ $reservation->learningSpace->name }}</td>

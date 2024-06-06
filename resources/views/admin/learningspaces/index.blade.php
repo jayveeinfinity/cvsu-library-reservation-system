@@ -80,7 +80,7 @@
                                         @if(!$learningSpaces->isEmpty())
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <!-- <th>ID</th> -->
                                                 <th>Name</th>
                                                 <th>Capacity</th>
                                                 <th>Location</th>
@@ -92,7 +92,7 @@
                                         <tbody>
                                             @forelse($learningSpaces as $learningSpace)
                                                 <tr>
-                                                    <td style="width: 10px;">{{ $learningSpace->id }}</td>
+                                                    <!-- <td style="width: 10px;">{{ $learningSpace->id }}</td> -->
                                                     <td><a href="#">{{ $learningSpace->name }}</a></td>
                                                     <td>{{ $learningSpace->min_capacity }} - {{ $learningSpace->max_capacity }}</td>
                                                     <td>{{ $learningSpace->location }}</td>

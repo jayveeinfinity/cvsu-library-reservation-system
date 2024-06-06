@@ -5,11 +5,11 @@
   <!-- Facilities -->
   <section class="articles py-5">
     <div class="container">
-      <a href="{{ route('schedules.index', ['id' => $learningSpace->id]) }}" class="button button-warning float-right d-lg-inline-block d-md-none d-sm-none hide-for-mobile">Reserve {{ $learningSpace->name }}</a>
+      <a href="{{ route('schedules.index', ['learningSpaceId' => $learningSpace->id]) }}" class="button button-warning float-right d-lg-inline-block d-md-none d-sm-none hide-for-mobile">Reserve {{ $learningSpace->name }}</a>
       <div class="section-heading">
         <h2 class="font-weight-bold">{{ $learningSpace->name }}</h2>
         <span class="text-muted"><i class="fas fa-map-marker-alt"></i> {{ $learningSpace->location }}</span>
-        <a href="{{ route('schedules.index', ['id' => $learningSpace->id]) }}" class="mt-4 button button-warning text-center d-lg-none d-md-block d-sm-block hide-for-desktop">Reserve {{ $learningSpace->name }}</a>
+        <a href="{{ route('schedules.index', ['learningSpaceId' => $learningSpace->id]) }}" class="mt-4 button button-warning text-center d-lg-none d-md-block d-sm-block hide-for-desktop">Reserve {{ $learningSpace->name }}</a>
       </div>
       <hr>
       <section class="section-details pt-3">
@@ -42,17 +42,14 @@
         <h4 class="px-2">Gallery</h4>
         <div class="tz-gallery">
           <div class="row">
+            @foreach($learningSpace->images as $image)
+              <div class="col-sm-12 col-md-4">
+                  <a class="lightbox" href="/images/facilities/{{ $image->filename }}">
+                      <img src="/images/facilities/{{ $image->filename }}">
+                  </a>
+              </div>
+            @endforeach
             <!-- <div class="col-sm-6 col-md-4">
-                <a class="lightbox" href="/images/facilities/collaboration-area.jpg">
-                    <img src="/images/facilities/collaboration-area.jpg" alt="Coast">
-                </a>
-            </div>  -->
-            <div class="col-sm-12 col-md-4">
-                <a class="lightbox" href="/images/facilities/IMG_7694.jpg">
-                    <img src="/images/facilities/IMG_7694.jpg">
-                </a>
-            </div>
-            <div class="col-sm-6 col-md-4">
                 <a class="lightbox" href="/images/facilities/IMG_7698.jpg">
                     <img src="/images/facilities/IMG_7698.jpg">
                 </a>
@@ -71,7 +68,7 @@
                 <a class="lightbox" href="/images/facilities/IMG_7701.jpg">
                     <img src="/images/facilities/IMG_7701.jpg">
                 </a>
-            </div> 
+            </div>  -->
           </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
