@@ -30,6 +30,16 @@ class LandingController extends Controller
     }
 
     /**
+     * Display a about us page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function aboutus()
+    {
+        return view('landing.aboutus');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

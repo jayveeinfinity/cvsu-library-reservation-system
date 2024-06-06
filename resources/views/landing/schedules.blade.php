@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-@if(auth()->user() && !is_string($patronData) && $patronData['isExpired'])
+@if(auth()->user() && !is_string($patronData) && $patronData['isExpired'] && FALSE)
   <div class="container-fluid p-5 ils-bg-default">
     <div class="container">
       <div class="jumbotron">
@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-@elseif(is_string($patronData))
+@elseif(is_string($patronData) && FALSE)
   <div class="container-fluid p-5 ils-bg-default">
     <div class="container">
       <div class="jumbotron">
@@ -149,7 +149,7 @@
             <div class="row">
               <div class="col-12 py-2 px-4">
                 <div class="card flex-lg-row flex-md-column flex-sm-column">
-                  <img src="images/facilities/collaboration-area.jpg" height="100%" data-image="facility">
+                  <img src="images/facilities/collaboration-room.jpg" height="100%" data-image="facility">
                   <div class="card-body">
                     <h3 data-input="facility">Collaboration Area</h3>
                     <p>
@@ -184,6 +184,51 @@
           <div class="modal-footer">
             <a type="button" class="button-sm button-secondary" data-dismiss="modal"><i class="fas fa-arrow-left"></i> Cancel</a>
             <button type="button" class="button-sm button-warning border-0" data-submit="confirmReservation" disabled>Confirm reservation</button>
+        </div>
+      </div>
+    </div>
+    <!-- Rules and Regulations Modal -->
+    <div class="modal fade" id="rulesAndRegulationsModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="rulesAndRegulationsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rulesAndRegulationsModalLabel">Rules and Regulations</h5>
+          </div>
+          <div class="modal-body px-3" data-scroll="rulesAndRegulationsModal">
+            <ol class="px-3" style="line-height: 4rem;">
+              <li>You must have a <b>CvSU email address (email@cvsu.edu.ph)</b>, registered and validated library patron account to reserve a room and can only make a maximum of one reservation.</li>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Users</th>
+                    <th scope="col">Maximum hours usage per transaction</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Student</td>
+                    <td>5 hours</td>
+                  </tr>
+                  <tr>
+                    <td>Faculty/Staff</td>
+                    <td>1 day</td>
+                  </tr>
+                </tbody>
+              </table>
+              <li>Reservations can be made up to 2 week in advance or must be made at least 1 day ahead of the requested date. These rooms are reserved on a <b>first come first serve</b> basis.</li>
+              <li>Collaboration Area and Learning Commons are for <b>academic use only</b>.</li>
+              <li>You must show up for your reservation on time. If you are not present within 30 minutes of the start time of your reservation, other groups will be allowed to use the library space.</li>
+              <li>Foods and drinks are not allowed inside the learning spaces except for the Collaboration Area.</li>
+              <li>A <b>confirmation email</b> will be sent once the reservation request is already approved.</li>
+              <li>Patrons are required to return the room in the condition it was received. Practice <b>CLAYGo (CLean As You Go)/</b>. All waste should be properly disposed of in appropriate trash bins at the end of the reservation period. </li>
+              <li>The patron/student/staff who made the reservation is considered as the  focal person and must accept full responsibility for any damage incurred while the room is in use.</li>
+              <li>Groups using the learning spaces must agree to the Library policies. The Library reserves the right to ask users to discontinue any activities that disrupt the normal operations of the Library.</li>
+              <li>LibSpace usage is <b>FREE of CHARGE</b>.</li>
+            </ol>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="button-sm button-warning border-0" data-click="agreeRulesBtn" disabled>I agree the Rules and Regulations</button>
+          </div>
         </div>
       </div>
     </div>
@@ -351,7 +396,7 @@
         start_time = target.dataset.start;
         end_time = target.dataset.end;
 
-        // document.querySelector('[data-input="facility"]').src = facilitySelect.options[facilitySelect.selectedIndex].text;
+        document.querySelector('[data-image="facility"]').src = "images/facilities/" + (facilitySelect.options[facilitySelect.selectedIndex].value == 1 ? 'collaboration-room.jpg' : 'learning-commons.jpg');
         document.querySelector('[data-input="facility"]').innerHTML = facilitySelect.options[facilitySelect.selectedIndex].text;
         document.querySelector('[data-input="date"]').innerHTML = dateSelect.options[dateSelect.selectedIndex].text;
         document.querySelector('[data-input="duration"]').innerHTML = target.dataset.duration + " hour" + (target.dataset.duration > 1 ? "s" : "");
@@ -414,6 +459,40 @@
         }
     });
     confirmButton.disabled = !allFilled;
+  });
+
+  let rulesFlag = false;
+  const agreeRulesBtn = document.querySelector('[data-click="agreeRulesBtn"]');
+  const scrollableDiv = document.querySelector('[data-scroll="rulesAndRegulationsModal"]');
+
+  checkbox.addEventListener('click', (e) => {
+    e.preventDefault();
+    if(!rulesFlag) {
+      checkbox.checked = false;
+      $(document).ready(function() {
+        $('#rulesAndRegulationsModal').modal('show');
+      });
+    } else {
+      checkbox.checked = false;
+      $(document).ready(function() {
+        $('#rulesAndRegulationsModal').modal('show');
+      });
+    }
+  });
+
+  scrollableDiv.addEventListener('scroll', (e) => {
+    if (scrollableDiv.scrollTop + scrollableDiv.clientHeight >= scrollableDiv.scrollHeight) {
+      agreeRulesBtn.disabled = false;
+      rulesFlag = true;
+    }
+  });
+  
+  agreeRulesBtn.addEventListener('click', (e) => {
+    checkbox.checked = true;
+
+    $(document).ready(function() {
+      $('#rulesAndRegulationsModal').modal('hide');
+    });
   });
 
   function Init() {

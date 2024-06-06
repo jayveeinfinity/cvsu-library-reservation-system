@@ -14,7 +14,7 @@
       </div>
       <div class="section-content">
         <ol class="px-3" style="line-height: 4rem;">
-          <li>You must have a <b>CvSU email address (email@cvsu.edu.ph)</b> to reserve a room and can only make a maximum of one reservation per day.</li>
+          <li>You must have a <b>CvSU email address (email@cvsu.edu.ph)</b>, registered and validated library patron account to reserve a room and can only make a maximum of one reservation.</li>
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -25,7 +25,7 @@
               <tbody>
                 <tr>
                   <td>Student</td>
-                  <td>3 hours</td>
+                  <td>5 hours</td>
                 </tr>
                 <tr>
                   <td>Faculty/Staff</td>
@@ -34,9 +34,9 @@
               </tbody>
 
             </table>
-          <li>Reservations can be made up to 1 week in advance or must be made at least 3 days ahead of the requested date. These rooms are reserved on a <b>first come first serve</b> basis.</li>
+          <li>Reservations can be made up to 2 week in advance or must be made at least 1 day ahead of the requested date. These rooms are reserved on a <b>first come first serve</b> basis.</li>
           <li>Collaboration Area and Learning Commons are for <b>academic use only</b>.</li>
-          <li>You must show up for your reservation on time. If you are not present within 15 minutes of the start time of your reservation, other groups will be allowed to use the library space.</li>
+          <li>You must show up for your reservation on time. If you are not present within 30 minutes of the start time of your reservation, other groups will be allowed to use the library space.</li>
           <li>Foods and drinks are not allowed inside the learning spaces except for the Collaboration Area.</li>
           <li>A <b>confirmation email</b> will be sent once the reservation request is already approved.</li>
           <li>Patrons are required to return the room in the condition it was received. Practice <b>CLAYGo (CLean As You Go)/</b>. All waste should be properly disposed of in appropriate trash bins at the end of the reservation period. </li>

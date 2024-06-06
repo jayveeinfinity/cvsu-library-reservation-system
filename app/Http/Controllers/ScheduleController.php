@@ -227,7 +227,9 @@ class ScheduleController extends Controller
                 // Check if the time slot overlaps with the reservation
                 if (
                     ($reservationStart->copy()->addSecond()->between($slotStart, $slotEnd)) ||
-                    ($reservationEnd->copy()->subSecond()->between($slotStart, $slotEnd))
+                    ($reservationEnd->copy()->subSecond()->between($slotStart, $slotEnd)) ||
+                    ($slotStart->copy()->addSecond()->between($reservationStart, $reservationEnd)) ||
+                    ($slotEnd->copy()->subSecond()->between($reservationStart, $reservationEnd))
                 ) {
                     $isAvailable = false;
                     break;
