@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-  Users &sdot; 
+  Learning Spaces &sdot; 
 @endsection
 
 @section('main-content-header')
@@ -11,7 +11,7 @@
             <div class="col-sm-6">
                 <a class="badge badge-primary float-sm-left mb-3" href="{{ route('admin.dashboard') }}"><i class="fas fa-arrow-alt-circle-left"></i> Back to admin dashboard</a>
                 <br><br><br><br>
-                <h1 class="m-0 text-white" style="text-shadow: 4px 4px 6px #838383;"><i class="fas fa-home"></i> Learning Spaces</h1>
+                <h1 class="m-0 text-white" style="text-shadow: 4px 4px 6px #838383;"><i class="fas fa-building"></i> Learning Spaces</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb px-3 elevation-1 bg-white float-sm-right">
@@ -31,10 +31,10 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex flex-row justify-content-between align-items-center">
-                        <h3 class="card-title">Learning Spaces</h3>
-                        <!-- <div class="w-100 text-right">
-                            <a class="btn bg-gradient-success btn-sm" href="#"><i class="fas fa-plus"></i> Create learning space</a>
-                        </div> -->
+                        <h3 class="w-100 card-title">Learning Spaces</h3>
+                        <div class="w-100 text-right">
+                            <a class="btn bg-gradient-success btn-sm" href="{{ route('admin.learningspaces.create') }}"><i class="fas fa-plus"></i> Create learning space</a>
+                        </div>
                         <!-- <div class="btn-group btn-group-toggle float-right border border-secondary rounded mr-3">
                             <label class="btn btn-sm btn-light bg-green">
                                 <a href="javascript:void(0)">Default</a>
@@ -85,7 +85,7 @@
                                                 <th>Capacity</th>
                                                 <th>Location</th>
                                                 <th>Description</th>
-                                                <!-- <th>Actions</th> -->
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         @endif
@@ -97,11 +97,11 @@
                                                     <td>{{ $learningSpace->min_capacity }} - {{ $learningSpace->max_capacity }}</td>
                                                     <td>{{ $learningSpace->location }}</td>
                                                     <td>{{ $learningSpace->description }}</td>
-                                                    <!-- <td>
-                                                        <a class="btn mr-2 mb-2 bg-gradient-success btn-sm" style="width: 36px;" href="?parent=catalog&amp;child=ebooks&amp;action=read&amp;id=3079" data-id="3079"><i class="fas fa-eye"></i></a>
-                                                        <a class="btn mr-2 mb-2 bg-gradient-warning text-white btn-sm" style="width: 36px;" href="https://link.springer.com/book/10.1007/978-3-030-57562-5 " target="_blank"><i class="fas fa-link"></i></a>
-                                                        <a class="btn mr-2 mb-2 bg-gradient-primary btn-sm" href="#"><i class="fas fa-edit"></i> Edit</a>
-                                                    </td> -->
+                                                    <td>
+                                                        <!-- <a class="btn mr-2 mb-2 bg-gradient-success btn-sm" style="width: 36px;" href="?parent=catalog&amp;child=ebooks&amp;action=read&amp;id=3079" data-id="3079"><i class="fas fa-eye"></i></a> -->
+                                                        <!-- <a class="btn mr-2 mb-2 bg-gradient-warning text-white btn-sm" style="width: 36px;" href="https://link.springer.com/book/10.1007/978-3-030-57562-5 " target="_blank"><i class="fas fa-link"></i></a> -->
+                                                        <a class="btn mr-2 mb-2 bg-gradient-primary btn-sm btn-block" href="{{ route('admin.learningspaces.show', ['id' => $learningSpace->id]) }}"><i class="fas fa-edit"></i> Edit</a>
+                                                    </td>
                                                 </tr>
                                             @empty
                                                 <p>No learning spaces for today.</p>
