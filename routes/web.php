@@ -56,10 +56,19 @@ Route::middleware('auth')->group(function () {
         });
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('/reservations', [ReservationController::class, 'index'])->name('admin.reservations.index');
+
         Route::get('/learning-spaces', [LearningSpaceController::class, 'index'])->name('admin.learningspaces.index');
+        Route::get('/learning-spaces/create', [LearningSpaceController::class, 'create'])->name('admin.learningspaces.create');
+        Route::get('/learning-spaces/{id}', [LearningSpaceController::class, 'show'])->name('admin.learningspaces.show');
+        Route::post('/learning-spaces/stote', [LearningSpaceController::class, 'store'])->name('admin.learningspaces.store');
+
         Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
 
         Route::post('/reservations/{id}/approve', [ReservationController::class, 'approve'])->name('admin.reservations.approve');
         Route::post('/reservations/{id}/reject', [ReservationController::class, 'reject'])->name('admin.reservations.reject');
+
+        Route::get('/amenities/create', function() {
+            return view('admin.amenities.create');
+        })->name('admin.amenities.create');
     });
 });

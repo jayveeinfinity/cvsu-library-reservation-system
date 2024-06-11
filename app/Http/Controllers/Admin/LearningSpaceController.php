@@ -27,7 +27,7 @@ class LearningSpaceController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.learningspaces.create');
     }
 
     /**
@@ -49,7 +49,9 @@ class LearningSpaceController extends Controller
      */
     public function show($id)
     {
-        //
+        $learningSpace = LearningSpace::where('id', $id)->firstOrFail();
+
+        return view('admin.learningspaces.create', compact('learningSpace'));
     }
 
     /**

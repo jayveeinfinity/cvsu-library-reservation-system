@@ -63,7 +63,7 @@
           </li>
           <li class="nav-item">
             <a href="{{ route('admin.learningspaces.index') }}" class="nav-link" data-state="learning-spaces">
-              <i class="nav-icon fas fa-home"></i>
+              <i class="nav-icon fas fa-building"></i>
               <p>
                 Learning Spaces
               </p>
@@ -77,14 +77,14 @@
               </p>
             </a>
           </li>
-          <!-- <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user-secret"></i>
+          <li class="nav-item">
+            <a href="{{ route('admin.amenities.create') }}" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
               <p>
-                Roles
+                Amenities
               </p>
             </a>
-          </li> -->
+          </li>
           <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-bar"></i>
@@ -122,6 +122,7 @@
 
   function LinkClickHandler(url) {
     let tab = url.replace("/admin/", "");
+    tab = tab.replace("/create", "");
     document.querySelector('[data-state="' + tab + '"]').classList.add('active');
     document.querySelector('[data-state="' + tab + '"]').classList.add('bg-gradient-success');
   }
