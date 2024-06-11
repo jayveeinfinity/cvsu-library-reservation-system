@@ -9,6 +9,8 @@ class Image extends Model
 {
     use HasFactory;
 
+    public $fillable = ['filename', 'learning_space_id'];
+
     public function learningSpace()
     {
         return $this->belongsTo(LearningSpace::class);

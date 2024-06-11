@@ -17,10 +17,10 @@
         <div class="article">
           <a href="{{ route('landing.facility', ['slug' => $learningSpace->slug]) }}">
             <div class="article-image">
-              @if($learningSpace->slug == "collaboration-room") 
-                <img src="/images/facilities/collaboration-room.jpg" alt="Collaboration Room" />
+              @if($learningSpace->coverImage)
+                <img src="/storage/images/facilities/{{ $learningSpace->coverImage->filename }}" alt="Collaboration Room" />
               @else
-                <img src="/images/facilities/learning-commons.jpg" alt="Leaning Commons" />
+                <img src="/storage/images/facilities/placeholder.png" alt="Leaning Commons" />
               @endif
             </div>
             <div class="article-text">
