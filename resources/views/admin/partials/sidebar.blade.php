@@ -78,7 +78,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('admin.amenities.create') }}" class="nav-link">
+            <a href="{{ route('admin.amenities.index') }}" class="nav-link" data-state="amenities">
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Amenities

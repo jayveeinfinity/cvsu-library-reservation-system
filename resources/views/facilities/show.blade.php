@@ -44,8 +44,8 @@
           <div class="row">
             @foreach($learningSpace->images as $image)
               <div class="col-sm-12 col-md-4">
-                  <a class="lightbox" href="/images/facilities/{{ $image->filename }}">
-                      <img src="/images/facilities/{{ $image->filename }}">
+                  <a class="lightbox" href="/storage/images/facilities/{{ $image->filename }}">
+                      <img src="/storage/images/facilities/{{ $image->filename }}">
                   </a>
               </div>
             @endforeach

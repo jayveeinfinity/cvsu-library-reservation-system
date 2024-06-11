@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <!-- Chart JS -->
     <link rel="stylesheet" href="{{asset('plugins/chart.js/Chart.css')}}">
+    <!-- Bootstrap Iconpicker CSS-->
+    <link rel="stylesheet" href="{{asset('plugins/fontawesome-iconpicker/css/bootstrap-iconpicker.css')}}"/>
   </head>
   <body class="hold-transition sidebar-mini">
     <!-- Preloader -->

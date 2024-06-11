@@ -166,7 +166,7 @@
                     <p class="px-3 text-muted">No recent reservations.</p>
                     @endif
                     <ul class="products-list product-list-in-card px-3">
-                        @forelse($reservationsRecent as $reservation)
+                        @forelse($reservationsRecent->get() as $reservation)
                             @php
                                 $status = "badge-primary";
 
