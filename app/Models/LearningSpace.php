@@ -28,6 +28,6 @@ class LearningSpace extends Model
 
     public function amenities()
     {
-        return $this->belongsToMany(Amenity::class, 'learning_space_amenity');
+        return $this->belongsToMany(Amenity::class, 'learning_space_amenities', 'learning_space_id', 'amenity_id');
     }
 }

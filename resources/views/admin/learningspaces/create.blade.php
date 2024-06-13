@@ -71,8 +71,21 @@
                             <div class="form-group">
                                 <h6 class="font-weight-bold">Amenities</h6>
                                 @foreach($amenities as $amenity)
+                                    @php
+                                        $isChecked = '';
+                                    @endphp
+                                    @if($myAmenities)
+                                        @foreach($myAmenities as $learningSpaceAmenity)
+                                            @if($learningSpaceAmenity->amenities->id == $amenity->id)
+                                                @php
+                                                    $isChecked = 'checked';
+                                                    break;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                    @endif
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="{{ $amenity->id }}">
+                                        <input type="checkbox" class="form-check-input" id="{{ $amenity->id }}" {{ $isChecked }}>
                                         <label class="form-check-label" for="amenity-{{ $amenity->id }}"> <i class="{{ $amenity->icon }}"></i> {{ $amenity->name }}</label>
                                     </div>
                                 @endforeach
@@ -293,6 +306,7 @@
         e.preventDefault()
 
         var formData = new FormData();
+        formData.append('id', "{{ $learningSpace->id ?? null }}");
         formData.append('name', nameInput.value);
         formData.append('location', locationInput.value);
         formData.append('description', descriptionTextarea.value);
@@ -306,26 +320,27 @@
             }
         });
         formData.append('amenities', amenitiesData);
+        
         $.ajax({
-                type: "POST",
-                url: "{{ route('admin.learningspaces.store') }}",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    console.log(response);
-                    Swal.fire({
-                        icon: response.icon,
-                        title: response.title,
-                        text: response.message,
-                        allowOutsideClick: false
-                    }).then((result) => {
-                        if(result.isConfirmed) {
-                            window.location.reload();
-                        }
-                    });
-                }
-            });
+            type: "POST",
+            url: "{{ route('admin.learningspaces.store') }}",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                console.log(response);
+                Swal.fire({
+                    icon: response.icon,
+                    title: response.title,
+                    text: response.message,
+                    allowOutsideClick: false
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
     });
 </script>
 @endsection

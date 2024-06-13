@@ -6,6 +6,7 @@ use App\Models\Reservation;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\MailController;
 
 class ReservationController extends Controller
 {
@@ -125,6 +126,9 @@ class ReservationController extends Controller
             'processed_by' => auth()->user()->id,
         ]);
 
+        $mailController = new MailController();
+        $mailController->sendEmailApproved($reservation->user->email, $reservation);
+
         return response()->json(['message' => 'Reservation approved successfully.']);
     }
 
@@ -136,6 +140,11 @@ class ReservationController extends Controller
             'processed_by' => auth()->user()->id,
             'reason' => $request->reason
         ]);
+
+        $reservation = Reservation::findOrFail($id);
+
+        $mailController = new MailController();
+        $mailController->sendEmailRejected($reservation->user->email, $reservation);
 
         return response()->json(['message' => 'Reservation rejected successfully.']);
     }
