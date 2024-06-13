@@ -25,19 +25,15 @@
           <div class="col-lg-6 col-md-6 col-sm-12" style="border-left: 1px solid rgba(0,0,0,.1)">
             <h4 class="px-2">Amenities</h4>
             <ul class="ml-3 ils-list-style-none">
-              <li class="text-muted"><i class="fas fa-wifi m-2"></i> WiFi</li>
-              <li class="text-muted"><i class="fas fa-ethernet m-2"></i> Wired Ethernet</li>
-              <li class="text-muted"><i class="far fa-snowflake m-2"></i> Air condition</li>
-              <li class="text-muted"><i class="fas fa-chair m-2"></i> Chairs</li>
-              <li class="text-muted"><i class="fas fa-table m-2"></i> Tables</li>
-              <li class="text-muted"><i class="fas fa-desktop m-2"></i> Computer</li>
-              <li class="text-muted"><i class="fas fa-tv m-2"></i> Smart TV with movable stand</li>
-              <li class="text-muted"><i class="fas fa-tv m-2"></i> Projector with white screen</li>
+              @foreach($learningSpace->amenities as $amenity)
+              <li class="text-muted"><i class="{{ $amenity->icon }}"></i> {{ $amenity->name }}</li>
+              @endforeach
             </ul>
           </div>
         </div>
       </section>
       <hr>
+      @if($learningSpace->images->count() > 0)
       <section class="section-gallery pt-3">
         <h4 class="px-2">Gallery</h4>
         <div class="tz-gallery">
@@ -49,26 +45,6 @@
                   </a>
               </div>
             @endforeach
-            <!-- <div class="col-sm-6 col-md-4">
-                <a class="lightbox" href="/images/facilities/IMG_7698.jpg">
-                    <img src="/images/facilities/IMG_7698.jpg">
-                </a>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <a class="lightbox" href="/images/facilities/IMG_7699.jpg">
-                    <img src="/images/facilities/IMG_7699.jpg">
-                </a>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <a class="lightbox" href="/images/facilities/IMG_7700.jpg">
-                    <img src="/images/facilities/IMG_7700.jpg">
-                </a>
-            </div>
-            <div class="col-sm-6 col-md-4">
-                <a class="lightbox" href="/images/facilities/IMG_7701.jpg">
-                    <img src="/images/facilities/IMG_7701.jpg">
-                </a>
-            </div>  -->
           </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
@@ -76,6 +52,7 @@
             baguetteBox.run('.tz-gallery');
         </script>
       </section>
+      @endif
     </div>
   </section>
 </main>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\LearningSpace;
 use App\Http\Controllers\Controller;
 use App\Models\LearningSpaceAmenity;
+use Illuminate\Support\Facades\Route;
 
 class LearningSpaceController extends Controller
 {
@@ -32,8 +33,9 @@ class LearningSpaceController extends Controller
     {
         $learningSpace = NULL;
         $amenities = Amenity::all();
+        $myAmenities = NULL;
 
-        return view('admin.learningspaces.create', compact('learningSpace', 'amenities'));
+        return view('admin.learningspaces.create', compact('learningSpace', 'amenities', 'myAmenities'));
     }
 
     /**
@@ -44,19 +46,32 @@ class LearningSpaceController extends Controller
      */
     public function store(Request $request)
     {
-        $learningSpace = new LearningSpace();
-        $learningSpace->name = $request->name;
-        $learningSpace->slug = Str::slug($request->name);
-        $learningSpace->location = $request->location;
-        $learningSpace->description = $request->description;
-        $learningSpace->min_capacity = $request->min_capacity;
-        $learningSpace->max_capacity = $request->max_capacity;
-        $learningSpace->save();
-
-        $id = $learningSpace->id;
+        if($request->id) {
+            $learningSpace = LearningSpace::where('id', $request->id)->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'location' => $request->location,
+                'description' => $request->description,
+                'min_capacity' => $request->min_capacity,
+                'max_capacity' => $request->max_capacity
+            ]);
+            $id = $request->id;
+        } else {
+            $learningSpace = new LearningSpace();
+            $learningSpace->name = $request->name;
+            $learningSpace->slug = Str::slug($request->name);
+            $learningSpace->location = $request->location;
+            $learningSpace->description = $request->description;
+            $learningSpace->min_capacity = $request->min_capacity;
+            $learningSpace->max_capacity = $request->max_capacity;
+            $learningSpace->save();
+            $id = $learningSpace->id;
+        }
 
         if($id) {
             $amenities = explode(',', $request->amenities);
+
+            $learningSpaceAmenity = LearningSpaceAmenity::where('learning_space_id', $id)->delete();
 
             foreach($amenities as $amenity) {
                 $learningSpaceAmenity = new LearningSpaceAmenity();
@@ -64,11 +79,11 @@ class LearningSpaceController extends Controller
                 $learningSpaceAmenity->amenity_id  = $amenity;
                 $learningSpaceAmenity->save();
             }
-
+            
             return response()->json([
                 'icon' => 'success',
                 'title' => 'Saved!',
-                'message' => 'Successfully created new learning space.'
+                'message' => (empty($request->id) ? 'Successfully created new learning space.' : 'Successfully updated learning space.')
             ]);
         }
 
@@ -88,8 +103,11 @@ class LearningSpaceController extends Controller
     public function show($id)
     {
         $learningSpace = LearningSpace::where('id', $id)->firstOrFail();
+        $amenities = Amenity::all();
+        
+        $myAmenities = LearningSpaceAmenity::where('learning_space_id', $id)->get();
 
-        return view('admin.learningspaces.create', compact('learningSpace'));
+        return view('admin.learningspaces.create', compact('learningSpace', 'amenities', 'myAmenities'));
     }
 
     /**

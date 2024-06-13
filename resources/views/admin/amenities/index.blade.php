@@ -45,7 +45,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Actions</th>
+                                                <!-- <th>Actions</th> -->
                                             </tr>
                                         </thead>
                                         @endif
@@ -53,9 +53,9 @@
                                             @forelse($amenities as $amenity)
                                                 <tr>
                                                     <td><i class="{{ $amenity->icon }}"></i> {{ $amenity->name }}</td>
-                                                    <td>
+                                                    <!-- <td>
                                                         <a class="btn mr-2 mb-2 bg-gradient-danger btn-sm" href="{{ route('admin.amenities.destroy', ['id' => $amenity->id]) }}"><i class="fas fa-trash"></i> Delete</a>
-                                                    </td>
+                                                    </td> -->
                                                 </tr>
                                             @empty
                                                 <p>No amenities yet.</p>
@@ -64,7 +64,7 @@
                                     </table>
                                 </div>
                             </div>
-                            @if(!$amenities->isEmpty())
+                            <!-- @if(!$amenities->isEmpty())
                                 <div class="row">
                                     <div class="col-sm-12 col-md-5">
                                         <div class="dataTables_info">Showing 1 to 1 of {{ $amenities->count() }} {{ Str::plural('entry', $amenities->count()) }}</div>
@@ -75,7 +75,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                            @endif -->
                         </div>
                     </div>
                 </div>
